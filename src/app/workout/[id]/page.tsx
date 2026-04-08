@@ -203,7 +203,7 @@ export default function WorkoutPage() {
       </motion.header>
 
       {/* Exercises */}
-      <div className="px-4 py-6 space-y-4">
+      <div className="px-4 py-6 space-y-4 pb-32">
         {day.exercises.map((exercise, index) => {
           const isExpanded = expandedExercise === exercise.id;
           const completed = completedSets[exercise.id] || [];
@@ -330,7 +330,7 @@ export default function WorkoutPage() {
       {/* Complete Button */}
       {progressPercent === 100 && (
         <motion.div
-          className="fixed bottom-24 left-4 right-4"
+          className="fixed bottom-28 left-4 right-4 z-50"
           initial={{ y: 100 }}
           animate={{ y: 0 }}
         >
@@ -345,7 +345,7 @@ export default function WorkoutPage() {
       )}
 
       {/* Bottom Actions */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/95 to-transparent pt-8">
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/95 to-transparent pt-8 z-40">
         <div className="flex gap-3 max-w-md mx-auto">
           <button
             onClick={() => {
