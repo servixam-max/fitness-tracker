@@ -1,5 +1,5 @@
 // Rutina de entrenamiento personalizada
-// Para usuario: 82kg, objetivo fuerza y definición
+// Versión simplificada y robusta
 
 export interface Exercise {
   id: string;
@@ -9,8 +9,6 @@ export interface Exercise {
   rest: string;
   instruction: string;
   tips: string[];
-  imageUrl: string;
-  videoUrl: string;
   muscleGroup: string;
 }
 
@@ -24,35 +22,6 @@ export interface WorkoutDay {
   completed: boolean;
 }
 
-// Videos de referencia de canales de fitness profesionales
-const VIDEOS = {
-  // Día 1 - Tronco Superior
-  pressBanca: "https://www.youtube.com/watch?v=gRVjAtPip0Y", // Jeff Nippard
-  remoMancuerna: "https://www.youtube.com/watch?v=roCP6wCXPqo", // Alan Thrall
-  pressMilitar: "https://www.youtube.com/watch?v=2yjwXTZZEIU", // Jeff Nippard
-  aperturas: "https://www.youtube.com/watch?v=eozdVDA78P0", // Scott Herman
-  copaTriceps: "https://www.youtube.com/watch?v=ns-R5z-h-Pw", // Scott Herman
-  patadaTriceps: "https://www.youtube.com/watch?v=KCjY1rEC-Uo", // Jeff Nippard
-  curlBiceps: "https://www.youtube.com/watch?v=yaPIVe8I8Tw", // Alan Thrall
-  curlMartillo: "https://www.youtube.com/watch?v=TwD-YGVP4bs", // Jeff Nippard
-  
-  // Día 2 - Pierna y Core
-  sentadillaGoblet: "https://www.youtube.com/watch?v=MeIiIdhvXT4", // Jeff Nippard
-  zancadaBulgara: "https://www.youtube.com/watch?v=2C-uNgKwPLE", // Jeff Nippard
-  pesoMuertoRumano: "https://www.youtube.com/watch?v=JCXUYuzwOoU", // Alan Thrall
-  stepUp: "https://www.youtube.com/watch?v=v8Ym0p1rCkE", // Jeff Nippard
-  puenteGluteo: "https://www.youtube.com/watch?v=8l71Ll9wWHc", // Jeff Nippard
-  crunch: "https://www.youtube.com/watch?v=MKmrqcoCZdc", // Scott Herman
-  plank: "https://www.youtube.com/watch?v=ASdvNXX8zwM", // Jeff Nippard
-  
-  // Día 3 - HIIT
-  thrusters: "https://www.youtube.com/watch?v=l7rM1_8VYQc", // CrossFit
-  devilPress: "https://www.youtube.com/watch?v=1V9z-mYHN8E", // CrossFit
-  swing: "https://www.youtube.com/watch?v=sxVtnT78NCY", // Jeff Nippard
-  mountainClimbers: "https://www.youtube.com/watch?v=nmwgirgVHQ4", // Scott Herman
-  burpees: "https://www.youtube.com/watch?v=au4y-3sTtQQ", // CrossFit
-};
-
 export const WORKOUT_DAYS: WorkoutDay[] = [
   {
     id: "day1",
@@ -62,22 +31,19 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     duration: "45-60 min",
     completed: false,
     exercises: [
-      // Bloque 1: Empuje horizontal + Tirón horizontal (superserie)
+      // Bloque 1: Empuje horizontal + Tirón horizontal
       {
         id: "d1e1",
         name: "Press de Banca Plano",
         sets: 3,
         reps: "10-12",
-        rest: "60 seg",
+        rest: "90 seg",
         instruction: "Baja la barra al pecho controlado, sube explosivo. Codos a 45° del cuerpo.",
         tips: [
           "Mantén los pies firmes en el suelo",
           "No rebotes la barra en el pecho",
-          "Respira: baja inspirando, sube expulsando",
-          "Mantén muñecas rectas"
+          "Respira: baja inspirando, sube expulsando"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9a50e?w=800&q=80",
-        videoUrl: VIDEOS.pressBanca,
         muscleGroup: "Pecho"
       },
       {
@@ -90,11 +56,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Mantén la espalda recta, no arquees",
           "No uses impulso con el cuerpo",
-          "Contrae el dorsal en la subida",
-          "Estira completamente en la bajada"
+          "Contrae el dorsal en la subida"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1603287681836-e3f3e75e6902?w=800&q=80",
-        videoUrl: VIDEOS.remoMancuerna,
         muscleGroup: "Espalda"
       },
       
@@ -104,16 +67,13 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         name: "Press Militar Sentado",
         sets: 3,
         reps: "10",
-        rest: "60 seg",
+        rest: "90 seg",
         instruction: "Core activado, baja hasta la barbilla sin arquear la espalda.",
         tips: [
           "Core activado todo el tiempo",
           "No bloquees los codos arriba",
-          "Mira ligeramente hacia arriba, no el cuello",
-          "Sube en línea recta"
+          "Mira ligeramente hacia arriba"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1532029837066-7549e9428b71?w=800&q=80",
-        videoUrl: VIDEOS.pressMilitar,
         muscleGroup: "Hombros"
       },
       {
@@ -126,11 +86,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Codos altos, más que las manos",
           "No uses impulso de piernas",
-          "Contrae trapecios arriba",
-          "Controla la bajada"
+          "Contrae trapecios arriba"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80",
-        videoUrl: VIDEOS.remoMancuerna,
         muscleGroup: "Espalda"
       },
       
@@ -145,11 +102,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Mantén ligera flexión en codos",
           "Baja hasta sentir el estiramiento en pecho",
-          "Junta las mancuernas arriba contrayendo",
-          "No bajes más allá de la altura del pecho"
+          "Junta las mancuernas arriba contrayendo"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=80",
-        videoUrl: VIDEOS.aperturas,
         muscleGroup: "Pecho"
       },
       {
@@ -162,11 +116,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Codos fijos, no se separen",
           "Baja controlado (2-3 segundos)",
-          "Extiende completamente arriba",
-          "No uses demasiado peso"
+          "Extiende completamente arriba"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1583454156664-23a03127e9e9?w=800&q=80",
-        videoUrl: VIDEOS.copaTriceps,
         muscleGroup: "Tríceps"
       },
       
@@ -180,12 +131,9 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         instruction: "Palmas arriba. Sube rotando, baja controlado (fase negativa).",
         tips: [
           "No balancees el cuerpo",
-          "Sube rotando las muñecas (supinación)",
-          "Baja en 2-3 segundos",
-          "Contrae bíceps arriba 1 segundo"
+          "Sube rotando las muñecas",
+          "Baja en 2-3 segundos"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=800&q=80",
-        videoUrl: VIDEOS.curlBiceps,
         muscleGroup: "Bíceps"
       },
       {
@@ -198,11 +146,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Codo fijo, solo mueve antebrazo",
           "Aprieta tríceps en extensión",
-          "Movimiento controlado, no balancees",
-          "Alterna brazos o haz simultáneo"
+          "Movimiento controlado"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
-        videoUrl: VIDEOS.patadaTriceps,
         muscleGroup: "Tríceps"
       },
       
@@ -215,13 +160,10 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         rest: "45 seg",
         instruction: "Palmas enfrentadas. Trabaja braquial y antebrazo.",
         tips: [
-          "Mantén los codos al costado del cuerpo",
+          "Mantén los codos al costado",
           "No uses impulso",
-          "Contrae en la subida",
-          "Movimiento estricto"
+          "Contrae en la subida"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=800&q=80",
-        videoUrl: VIDEOS.curlMartillo,
         muscleGroup: "Bíceps"
       }
     ]
@@ -234,7 +176,6 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     duration: "50-65 min",
     completed: false,
     exercises: [
-      // Bloque 1: Cuádriceps + Posterior
       {
         id: "d2e1",
         name: "Sentadilla Goblet",
@@ -245,11 +186,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         tips: [
           "Codos dentro de las rodillas",
           "Mantén torso upright",
-          "No levantes los talones",
-          "Rodillas siguen la dirección de los pies"
+          "No levantes los talones"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1574680096145-d05d474e2155?w=800&q=80",
-        videoUrl: VIDEOS.sentadillaGoblet,
         muscleGroup: "Cuádriceps"
       },
       {
@@ -260,17 +198,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         rest: "90 seg",
         instruction: "Espalda recta. Baja las pesas por las espinillas hasta sentir estiramiento.",
         tips: [
-          "Rodillas ligeramente flexionadas (soft)",
+          "Rodillas ligeramente flexionadas",
           "Baja hasta sentir estiramiento en isquios",
-          "Contrae glúteos arriba",
-          "Barra cerca del cuerpo"
+          "Contrae glúteos arriba"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1603287681836-e3f3e75e6902?w=800&q=80",
-        videoUrl: VIDEOS.pesoMuertoRumano,
         muscleGroup: "Isquiotibiales"
       },
-      
-      // Bloque 2: Unilateral
       {
         id: "d2e3",
         name: "Zancada Búlgara",
@@ -279,13 +212,10 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         rest: "90 seg",
         instruction: "Pie trasero en banco. Torso inclinado trabaja más glúteo.",
         tips: [
-          "Torso ligeramente inclinado hacia adelante",
+          "Torso ligeramente inclinado",
           "Rodilla trasera casi toca suelo",
-          "Empuja con el talón delantero",
-          "Mantén equilibrio, core activado"
+          "Empuja con el talón delantero"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1574680178050-55e9f5350f4c?w=800&q=80",
-        videoUrl: VIDEOS.zancadaBulgara,
         muscleGroup: "Glúteos/Pierna"
       },
       {
@@ -294,19 +224,14 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 3,
         reps: "12 c/p",
         rest: "90 seg",
-        instruction: "Sube con fuerza de pierna, no te impulses. Controla la bajada.",
+        instruction: "Sube con fuerza de pierna. Controla la bajada.",
         tips: [
           "Paso completo en el banco",
           "No empujes con el pie atrás",
-          "Controla la bajada (2-3 seg)",
-          "Rodilla no pase la punta del pie"
+          "Controla la bajada"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-        videoUrl: VIDEOS.stepUp,
         muscleGroup: "Cuádriceps"
       },
-      
-      // Bloque 3: Glúteos + Core
       {
         id: "d2e5",
         name: "Puente de Glúteo",
@@ -315,13 +240,10 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         rest: "60 seg",
         instruction: "Pesa en cadera. Eleva apretando glúteos arriba 1-2 segundos.",
         tips: [
-          "Solo sube caderas, no la espalda baja",
-          "Aprieta glúteos arriba 1-2 segundos",
-          "No apoyues peso en cuello",
-          "Mantenlo 1-2 seg arriba"
+          "Solo sube caderas",
+          "Aprieta glúteos arriba",
+          "No apoyes peso en cuello"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80",
-        videoUrl: VIDEOS.puenteGluteo,
         muscleGroup: "Glúteos"
       },
       {
@@ -330,34 +252,26 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 3,
         reps: "10",
         rest: "2 min",
-        instruction: "Sentadilla normal y explota hacia arriba en salto. Aterriza suave.",
+        instruction: "Sentadilla normal y explota hacia arriba en salto.",
         tips: [
-          "Aterriza suave con rodillas flexionadas",
-          "No bloquees rodillas al aterrizar",
-          "Controla el descenso",
-          "Respira: baja inspira, salta expulsa"
+          "Aterriza suave",
+          "No bloquees rodillas",
+          "Controla el descenso"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=800&q=80",
-        videoUrl: VIDEOS.sentadillaGoblet,
         muscleGroup: "Pierna/Potencia"
       },
-      
-      // Bloque 4: Core
       {
         id: "d2e7",
         name: "Crunch Abdominal",
         sets: 3,
         reps: "20",
         rest: "45 seg",
-        instruction: "Eleva hombros del suelo contrayendo abdomen. No tires del cuello.",
+        instruction: "Eleva hombros del suelo. No tires del cuello.",
         tips: [
-          "Manos ligeramente detrás de orejas, no cuello",
-          "Contrae abdomen, no uses espalda",
-          "Espira en la subida",
-          "Movimiento controlado"
+          "Manos ligeramente detrás de orejas",
+          "Contrae abdomen",
+          "Espira en la subida"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1571019614242-c5c5dee9a50e?w=800&q=80",
-        videoUrl: VIDEOS.crunch,
         muscleGroup: "Core"
       },
       {
@@ -366,15 +280,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 3,
         reps: "45-60s",
         rest: "60 seg",
-        instruction: "Mantén cuerpo recto desde talones hasta cabeza. Core activado.",
+        instruction: "Mantén cuerpo recto. Core activado.",
         tips: [
           "No hundas la cadera",
-          "Respira normal, no aguantes",
-          "Mira al suelo, neutro",
+          "Respira normal",
           "Contrae abdomen y glúteos"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1566241440091-ec10de8db2e1?w=800&q=80",
-        videoUrl: VIDEOS.plank,
         muscleGroup: "Core"
       }
     ]
@@ -393,15 +304,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 5,
         reps: "15",
         rest: "30 seg",
-        instruction: "Circuito: Sentadilla profunda + press overhead en un movimiento fluido.",
+        instruction: "Sentadilla + press overhead. Movimiento fluido.",
         tips: [
-          "Usa impulso de piernas para subir",
-          "No pares entre repeticiones",
-          "Mantén ritmo constante",
-          "Respira: sube expulsando"
+          "Usa impulso de piernas",
+          "No pares",
+          "Mantén ritmo constante"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=800&q=80",
-        videoUrl: VIDEOS.thrusters,
         muscleGroup: "Full Body"
       },
       {
@@ -410,15 +318,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 5,
         reps: "10",
         rest: "30 seg",
-        instruction: "Circuito: Burpee con pesas + snatch hasta overhead. Movimiento explosivo.",
+        instruction: "Burpee con pesas + snatch hasta overhead.",
         tips: [
           "Caída en sentadilla profunda",
           "Explota hacia arriba",
-          "Sincroniza respiración",
-          "Controla pesas en todo momento"
+          "Sincroniza respiración"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1517963879466-e1b54ebd64b2?w=800&q=80",
-        videoUrl: VIDEOS.devilPress,
         muscleGroup: "Full Body"
       },
       {
@@ -427,15 +332,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 5,
         reps: "20",
         rest: "30 seg",
-        instruction: "Circuito: Balanceo de cadera tipo kettlebell. Cadera genera el movimiento.",
+        instruction: "Balanceo explosivo de cadera. Cadera genera el movimiento.",
         tips: [
           "Cadera genera TODO el movimiento",
-          "No uses brazos para impulsar",
-          "Contrae glúteos en extensión",
-          "Rodillas ligeramente flexionadas"
+          "No uses brazos",
+          "Contrae glúteos"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1517963879466-e1b54ebd64b2?w=800&q=80",
-        videoUrl: VIDEOS.swing,
         muscleGroup: "Posterior"
       },
       {
@@ -444,15 +346,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 5,
         reps: "40 seg",
         rest: "20 seg",
-        instruction: "Circuito: Rodillas al pecho rápido. Caderas bajas, core fuerte.",
+        instruction: "Rodillas al pecho rápido. Caderas bajas.",
         tips: [
-          "Caderas no suban mucho",
+          "Caderas no suban",
           "Rápido y constante",
-          "Mantén ritmo estable",
-          "Respira, no aguantes"
+          "Mantén ritmo"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80",
-        videoUrl: VIDEOS.mountainClimbers,
         muscleGroup: "Core/Cardio"
       },
       {
@@ -461,15 +360,12 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         sets: 5,
         reps: "Al fallo",
         rest: "90 seg",
-        instruction: "Circuito final: Haz máximo de burpees hasta el fallo muscular.",
+        instruction: "Máximo de burpees hasta el fallo muscular.",
         tips: [
-          "Caída controlada (sentadilla profunda)",
+          "Caída controlada",
           "Explota en la subida",
-          "No pares hasta el verdadero fallo",
-          "Sincroniza con respiración"
+          "No pares hasta el fallo"
         ],
-        imageUrl: "https://images.unsplash.com/photo-1517963879466-e1b54ebd64b2?w=800&q=80",
-        videoUrl: VIDEOS.burpees,
         muscleGroup: "Full Body"
       }
     ]
@@ -478,18 +374,16 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
 
 // Consejos generales
 export const TIPS = [
-  "Sobrecarga Progresiva: Cada 2 semanas, aumenta peso o repeticiones",
-  "Proteína: 1.6-2.2g por kg de peso corporal para mantener músculo",
-  "Hidratación: Bebe al menos 3 litros de agua al día (más en HIIT)",
+  "Sobrecarga Progresiva: Cada 2 semanas aumenta peso o repeticiones",
+  "Proteína: 1.6-2.2g por kg de peso corporal",
+  "Hidratación: Bebe al menos 3 litros de agua al día",
   "Descanso: Duerme 7-8 horas para recuperación óptima",
-  "Técnica: Prioriza forma correcta sobre peso levantado",
+  "Técnica: Prioriza forma correcta sobre peso",
   "Calentamiento: 5-10 min cardio ligero antes de empezar",
-  "Estiramiento: 5 min de cool-down al finalizar",
-  "Rendimiento: Si no puedes completar las series con buena forma, baja el peso",
-  "Progreso: Lleva registro de pesos para ver mejoras"
+  "Estiramiento: 5 min de cool-down al finalizar"
 ];
 
-// Función para marcar ejercicio completado
+// Funciones
 export function toggleExerciseComplete(dayId: string, exerciseId: string, completedSets: number[]) {
   const key = `workout-${dayId}`;
   const data = JSON.parse(localStorage.getItem(key) || '{}');
@@ -497,41 +391,12 @@ export function toggleExerciseComplete(dayId: string, exerciseId: string, comple
   localStorage.setItem(key, JSON.stringify(data));
 }
 
-// Función para obtener progreso
 export function getProgress(dayId: string): Record<string, number[]> {
   const key = `workout-${dayId}`;
   return JSON.parse(localStorage.getItem(key) || '{}');
 }
 
-// Función para resetear progreso
 export function resetProgress(dayId: string) {
   const key = `workout-${dayId}`;
   localStorage.removeItem(key);
-}
-
-// Función para obtener estadísticas
-export function getWorkoutStats() {
-  const stats = {
-    totalWorkouts: 0,
-    completedWorkouts: 0,
-    totalExercises: 0,
-    completedExercises: 0
-  };
-  
-  WORKOUT_DAYS.forEach(day => {
-    const progress = getProgress(day.id);
-    const completedExercises = Object.keys(progress).filter(
-      id => progress[id]?.length === day.exercises.find(e => e.id === id)?.sets
-    ).length;
-    
-    stats.totalExercises += day.exercises.length;
-    stats.completedExercises += completedExercises;
-    
-    if (completedExercises === day.exercises.length) {
-      stats.completedWorkouts++;
-    }
-    stats.totalWorkouts++;
-  });
-  
-  return stats;
 }
