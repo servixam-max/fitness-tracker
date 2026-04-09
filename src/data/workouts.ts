@@ -3,6 +3,50 @@
 
 export type Equipment = "mancuernas" | "banco" | "sin_peso";
 
+// URLs base para imágenes de ejercicios (WorkoutX API / ExerciseDB)
+const EXERCISE_IMAGES: Record<string, { gif: string; videoId?: string; isTimeBased?: boolean }> = {
+  "d1e1": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-bench-press.gif", videoId: "VmB1G1kp73k" },
+  "d1e2": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-fly.gif", videoId: "eozdVDA78H0" },
+  "d1e3": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-pullover.gif", videoId: "tT0qaVoW2OQ" },
+  "d1e4": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-row.gif", videoId: "roCP6wCXLqo" },
+  "d1e5": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-upright-row.gif", videoId: "VIoihkj1F9U" },
+  "d1e6": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-shrugs.gif", videoId: "cJZBEFKdrVI" },
+  "d1e7": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-shoulder-press.gif", videoId: "qEwK6VCS4VQ" },
+  "d1e8": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-lateral-raise.gif", videoId: "3VcKaXp-CWw" },
+  "d1e9": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-curl.gif", videoId: "QZEqt1_3rdI" },
+  "d1e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-concentration-curl.gif", videoId: "JrjNnnw1rsk" },
+  "d1e11": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-tricep-extension.gif", videoId: "ns-RGsbz9wU" },
+  "d1e12": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-skullcrusher.gif", videoId: "d_KZxkY_8zI" },
+  "d2e1": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-goblet-squat.gif", videoId: "MeIiIdhvXT4" },
+  "d2e2": { gif: "https://workoutx.s3.amazonaws.com/gifs/bulgarian-split-squat.gif", videoId: "2CbuP8Jb8PQ" },
+  "d2e3": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-romanian-deadlift.gif", videoId: "JCXr-eR_nUQ" },
+  "d2e4": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-lunge.gif", videoId: "L8qV_yCL8bw" },
+  "d2e5": { gif: "https://workoutx.s3.amazonaws.com/gifs/single-leg-deadlift.gif", videoId: "CynI22z_nKU" },
+  "d2e6": { gif: "https://workoutx.s3.amazonaws.com/gifs/jump-squat.gif", videoId: "Azl5tkCzDcc" },
+  "d2e7": { gif: "https://workoutx.s3.amazonaws.com/gifs/calf-raise.gif", videoId: "-qs5VbYAhS8" },
+  "d2e8": { gif: "https://workoutx.s3.amazonaws.com/gifs/glute-bridge.gif", videoId: "wPM8icCu6AU" },
+  "d2e9": { gif: "https://workoutx.s3.amazonaws.com/gifs/crunch.gif", videoId: "N6kZ8y9CgVM" },
+  "d2e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/plank.gif", videoId: "ASDVN_8rXbI", isTimeBased: true },
+  "d2e11": { gif: "https://workoutx.s3.amazonaws.com/gifs/russian-twist.gif", videoId: "wkD8rL1yIcg" },
+  "d3e1": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-thruster.gif", videoId: "5YFHIrn6vjI" },
+  "d3e2": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-burpee.gif", videoId: "jpL67KP2JdQ" },
+  "d3e3": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-clean-and-press.gif", videoId: "qE4fkm8y1l0" },
+  "d3e4": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-swing.gif", videoId: "V8i7C0L_aYc" },
+  "d3e5": { gif: "https://workoutx.s3.amazonaws.com/gifs/renegade-row.gif", videoId: "ZF5h2Xn6k6s" },
+  "d3e6": { gif: "https://workoutx.s3.amazonaws.com/gifs/dumbbell-complex.gif", videoId: "8GRwSlE_5T0" },
+  "d3e7": { gif: "https://workoutx.s3.amazonaws.com/gifs/mountain-climbers.gif", videoId: "nmwg82nPdcA", isTimeBased: true },
+  "d3e8": { gif: "https://workoutx.s3.amazonaws.com/gifs/jumping-jacks.gif", videoId: "iGaF9m4c8uQ", isTimeBased: true },
+  "d3e9": { gif: "https://workoutx.s3.amazonaws.com/gifs/plank-row.gif", videoId: "Gq05BgtEljU" },
+  "d3e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/burpee.gif", videoId: "d8bZ7bQ3z1o", isTimeBased: true },
+};
+
+// Fallback a imágenes de placeholder si la API falla
+export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean } {
+  return EXERCISE_IMAGES[exerciseId] || { 
+    gif: `https://placehold.co/400x300/141419/3b82f6?text=${encodeURIComponent(exerciseId)}`,
+  };
+}
+
 export interface Exercise {
   id: string;
   name: string;
@@ -13,6 +57,11 @@ export interface Exercise {
   tips: string[];
   muscleGroup: string;
   equipment: Equipment[];
+  imageUrl?: string;
+  gifUrl?: string;
+  videoId?: string;
+  isTimeBased?: boolean;
+  duration?: number;
 }
 
 export interface WorkoutDay {
@@ -406,7 +455,9 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae abdomen y glúteos"
         ],
         muscleGroup: "Core",
-        equipment: ["sin_peso"]
+        equipment: ["sin_peso"],
+        isTimeBased: true,
+        duration: 60
       },
       {
         id: "d2e11",

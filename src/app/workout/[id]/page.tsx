@@ -6,10 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, Clock, Dumbbell, ChevronDown, ChevronUp, 
   Check, RotateCcw, Trophy, Flame, Timer, Play, Pause,
-  AlertCircle, ChevronRight
+  AlertCircle, ChevronRight, Headphones
 } from "lucide-react";
 import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress, Equipment } from "@/data/workouts";
 import ExerciseIcon from "@/components/ExerciseIcon";
+import ExerciseGIF from "@/components/ExerciseGIF";
+import LiteYouTube from "@/components/LiteYouTube";
+import GuidedSession from "@/components/GuidedSession";
 
 // Timer hook
 function useTimer() {
@@ -60,6 +63,7 @@ export default function WorkoutPage() {
   const day = WORKOUT_DAYS.find(d => d.id === dayId);
   const [expandedExercise, setExpandedExercise] = useState<string | null>(null);
   const [completedSets, setCompletedSets] = useState<Record<string, number[]>>({});
+  const [showGuidedSession, setShowGuidedSession] = useState(false);
   const globalTimer = useTimer();
 
   useEffect(() => {
@@ -128,6 +132,18 @@ export default function WorkoutPage() {
 
   return (
     <div className="min-h-screen bg-black">
+      {/* Guided Session Overlay */}
+      {showGuidedSession && day && (
+        <GuidedSession
+          day={day}
+          onComplete={() => {
+            setShowGuidedSession(false);
+            router.push('/');
+          }}
+          onExit={() => setShowGuidedSession(false)}
+        />
+      )}
+
       {/* Sticky Timer Bar */}
       <AnimatePresence>
         {globalTimer.seconds > 0 && (
@@ -185,6 +201,15 @@ export default function WorkoutPage() {
         <h1 className="text-3xl font-bold text-white mb-1">{day.name}</h1>
         <p className="text-white/70 text-sm mb-4">{day.exercises.length} ejercicios • {day.duration}</p>
         
+        {/* Guided Session Button */}
+        <button
+          onClick={() => setShowGuidedSession(true)}
+          className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold flex items-center justify-center gap-3 shadow-lg shadow-orange-500/25 active:scale-95 transition-transform"
+        >
+          <Headphones size={24} />
+          Iniciar Sesión Guiada
+        </button>
+        
         {/* Progress */}
         <div>
           <div className="flex justify-between text-sm text-white/80 mb-2">
@@ -227,16 +252,8 @@ export default function WorkoutPage() {
                 onClick={() => setExpandedExercise(isExpanded ? null : exercise.id)}
                 className="w-full p-4 flex items-center gap-4"
               >
-                {/* Exercise Icon */}
-              {/* Exercise Icon with completion overlay */}
-                <div className="flex-shrink-0 relative">
-                  <ExerciseIcon exerciseId={exercise.id} size={56} />
-                  {allSetsDone && (
-                    <div className="absolute inset-0 rounded-xl bg-green-500/80 flex items-center justify-center">
-                      <Check size={28} className="text-white" />
-                    </div>
-                  )}
-                </div>
+                {/* Exercise GIF */}
+                <ExerciseGIF exerciseId={exercise.id} size="md" />
 
                 {/* Info */}
                 <div className="flex-1 text-left min-w-0">
@@ -287,6 +304,17 @@ export default function WorkoutPage() {
                     className="border-t border-zinc-800 overflow-hidden"
                   >
                     <div className="p-4 space-y-4">
+                      {/* Video Section */}
+                      {exercise.videoId && (
+                        <div>
+                          <h4 className="font-semibold mb-2 text-blue-400 flex items-center gap-2">
+                            <Play size={16} />
+                            Video Demostrativo
+                          </h4>
+                          <LiteYouTube videoId={exercise.videoId} />
+                        </div>
+                      )}
+
                       {/* Instructions */}
                       <div className="bg-zinc-800/50 rounded-xl p-4">
                         <h4 className="font-semibold mb-2 text-orange-400 flex items-center gap-2">
