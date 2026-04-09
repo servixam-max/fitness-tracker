@@ -7,7 +7,7 @@ import { WorkoutDay, Exercise, getExerciseMedia } from "@/data/workouts";
 import { useSpeech, useSounds } from "@/hooks/useSpeech";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import ExerciseGIF from "./ExerciseGIF";
-import LiteYouTube from "./LiteYouTube";
+import VideoPlayer from "./VideoPlayer";
 
 interface GuidedSessionProps {
   day: WorkoutDay;
@@ -280,7 +280,7 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
             {/* Exercise GIF/Video */}
             <div className="mb-6 flex justify-center">
               {media?.videoId ? (
-                <LiteYouTube videoId={media.videoId} className="w-full max-w-sm" />
+                <VideoPlayer videoId={media.videoId} title={currentExercise.name} className="w-full max-w-sm" />
               ) : (
                 <ExerciseGIF exerciseId={currentExercise.id} size="full" />
               )}

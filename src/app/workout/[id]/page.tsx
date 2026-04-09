@@ -12,6 +12,7 @@ import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress, Equip
 import ExerciseIcon from "@/components/ExerciseIcon";
 import ExerciseGIF from "@/components/ExerciseGIF";
 import LiteYouTube from "@/components/LiteYouTube";
+import VideoPlayer from "@/components/VideoPlayer";
 import GuidedSession from "@/components/GuidedSession";
 import WeightTracker from "@/components/WeightTracker";
 
@@ -332,7 +333,7 @@ export default function WorkoutPage() {
                             <Play size={16} />
                             Video Demostrativo
                           </h4>
-                          <LiteYouTube videoId={exercise.videoId} />
+                          <VideoPlayer videoId={exercise.videoId} title={exercise.name} />
                         </div>
                       )}
 
