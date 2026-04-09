@@ -6,13 +6,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   ArrowLeft, Clock, Dumbbell, ChevronDown, ChevronUp, 
   Check, RotateCcw, Trophy, Flame, Timer, Play, Pause,
-  AlertCircle, ChevronRight, Headphones
+  AlertCircle, ChevronRight, Headphones, TrendingUp
 } from "lucide-react";
 import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress, Equipment } from "@/data/workouts";
 import ExerciseIcon from "@/components/ExerciseIcon";
 import ExerciseGIF from "@/components/ExerciseGIF";
 import LiteYouTube from "@/components/LiteYouTube";
 import GuidedSession from "@/components/GuidedSession";
+import WeightTracker from "@/components/WeightTracker";
 
 // Timer hook
 function useTimer() {
@@ -65,6 +66,7 @@ export default function WorkoutPage() {
   const [completedSets, setCompletedSets] = useState<Record<string, number[]>>({});
   const [showGuidedSession, setShowGuidedSession] = useState(false);
   const [workoutStartTime, setWorkoutStartTime] = useState<number | null>(null);
+  const [showWeightTracker, setShowWeightTracker] = useState<{ exerciseId: string; exerciseName: string; reps: string } | null>(null);
   const globalTimer = useTimer();
 
   useEffect(() => {
@@ -133,6 +135,16 @@ export default function WorkoutPage() {
 
   return (
     <div className="min-h-screen bg-black">
+      {/* Weight Tracker Modal */}
+      {showWeightTracker && (
+        <WeightTracker
+          exerciseId={showWeightTracker.exerciseId}
+          exerciseName={showWeightTracker.exerciseName}
+          defaultReps={showWeightTracker.reps}
+          onClose={() => setShowWeightTracker(null)}
+        />
+      )}
+
       {/* Guided Session Overlay */}
       {showGuidedSession && day && (
         <GuidedSession
@@ -376,6 +388,15 @@ export default function WorkoutPage() {
                       >
                         <Timer size={20} />
                         Descanso: {exercise.rest}
+                      </button>
+
+                      {/* Weight Tracker Button */}
+                      <button
+                        onClick={() => setShowWeightTracker({ exerciseId: exercise.id, exerciseName: exercise.name, reps: exercise.reps })}
+                        className="w-full py-3 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
+                      >
+                        <TrendingUp size={20} />
+                        Registrar Peso
                       </button>
                     </div>
                   </motion.div>

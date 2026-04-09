@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Dumbbell, Flame, Timer, ChevronRight, Trophy, Droplets, Info, History } from "lucide-react";
+import { Dumbbell, Flame, Timer, ChevronRight, Trophy, Droplets, Info, History, Settings } from "lucide-react";
 import { WORKOUT_DAYS, TIPS } from "@/data/workouts";
 import Link from "next/link";
 
@@ -36,6 +36,14 @@ export default function Home() {
             >
               <History size={16} />
               Historial
+            </motion.button>
+          </Link>
+          <Link href="/settings">
+            <motion.button
+              className="p-2 rounded-full bg-white/10"
+              whileTap={{ scale: 0.95 }}
+            >
+              <Settings size={18} />
             </motion.button>
           </Link>
           <motion.button
