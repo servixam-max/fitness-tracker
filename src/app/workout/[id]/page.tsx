@@ -8,7 +8,8 @@ import {
   Check, RotateCcw, Trophy, Flame, Timer, Play, Pause,
   AlertCircle, ChevronRight
 } from "lucide-react";
-import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress } from "@/data/workouts";
+import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress, Equipment } from "@/data/workouts";
+import ExerciseIcon from "@/components/ExerciseIcon";
 
 // Timer hook
 function useTimer() {
@@ -226,19 +227,20 @@ export default function WorkoutPage() {
                 onClick={() => setExpandedExercise(isExpanded ? null : exercise.id)}
                 className="w-full p-4 flex items-center gap-4"
               >
-                {/* Exercise Number */}
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center font-bold text-lg flex-shrink-0 ${
-                  allSetsDone 
-                    ? 'bg-green-500 text-white' 
-                    : 'bg-zinc-800 text-zinc-400'
-                }`}
-                >
-                  {allSetsDone ? <Check size={24} /> : index + 1}
+                {/* Exercise Icon */}
+              {/* Exercise Icon with completion overlay */}
+                <div className="flex-shrink-0 relative">
+                  <ExerciseIcon exerciseId={exercise.id} size={56} />
+                  {allSetsDone && (
+                    <div className="absolute inset-0 rounded-xl bg-green-500/80 flex items-center justify-center">
+                      <Check size={28} className="text-white" />
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
-                <div className="flex-1 text-left">
-                  <h3 className="font-bold text-lg text-white">{exercise.name}</h3>
+                <div className="flex-1 text-left min-w-0">
+                  <h3 className="font-bold text-lg text-white leading-tight">{exercise.name}</h3>
                   <div className="flex items-center gap-3 mt-1 text-sm">
                     <span className="text-zinc-400 flex items-center gap-1">
                       <Dumbbell size={14} />
@@ -246,6 +248,26 @@ export default function WorkoutPage() {
                     </span>
                     <span className="text-zinc-600">•</span>
                     <span className="text-zinc-500">{exercise.muscleGroup}</span>
+                  </div>
+                  {/* Equipment tags */}
+                  <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
+                    {exercise.equipment.map((eq: Equipment) => (
+                      <span
+                        key={eq}
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                          eq === "mancuernas" 
+                            ? "bg-orange-500/20 text-orange-400"
+                            : eq === "banco"
+                            ? "bg-blue-500/20 text-blue-400"
+                            : "bg-green-500/20 text-green-400"
+                        }`}
+                      >
+                        {eq === "mancuernas" && "🏋️"}
+                        {eq === "banco" && "🪑"}
+                        {eq === "sin_peso" && "🦶"}
+                        {eq === "mancuernas" ? "Mancuernas" : eq === "banco" ? "Banco" : "Sin peso"}
+                      </span>
+                    ))}
                   </div>
                 </div>
 

@@ -1,6 +1,8 @@
 // Rutina de entrenamiento - SOLO MANCUERNAS Y BANCO
 // Equipo necesario: Par de mancuernas + Banco plano
 
+export type Equipment = "mancuernas" | "banco" | "sin_peso";
+
 export interface Exercise {
   id: string;
   name: string;
@@ -10,6 +12,7 @@ export interface Exercise {
   instruction: string;
   tips: string[];
   muscleGroup: string;
+  equipment: Equipment[];
 }
 
 export interface WorkoutDay {
@@ -45,7 +48,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Muñecas rectas, no dobladas",
           "Codos a 45° del cuerpo"
         ],
-        muscleGroup: "Pecho"
+        muscleGroup: "Pecho",
+        equipment: ["mancuernas", "banco"]
       },
       {
         id: "d1e2",
@@ -60,7 +64,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Movimiento como abrazando un árbol",
           "No bajes más allá de la línea del pecho"
         ],
-        muscleGroup: "Pecho"
+        muscleGroup: "Pecho",
+        equipment: ["mancuernas", "banco"]
       },
       {
         id: "d1e3",
@@ -75,7 +80,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mantén caderas en el banco",
           "Usa peso moderado, controlado"
         ],
-        muscleGroup: "Pecho/Dorsal"
+        muscleGroup: "Pecho/Dorsal",
+        equipment: ["mancuernas", "banco"]
       },
       
       // ESPALDA - Con mancuernas
@@ -92,7 +98,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae el dorsal en la subida",
           "Alterna brazos cada serie o haz todas con uno y cambias"
         ],
-        muscleGroup: "Espalda"
+        muscleGroup: "Espalda",
+        equipment: ["mancuernas", "banco"]
       },
       {
         id: "d1e5",
@@ -107,7 +114,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae trapecios y deltoides posteriores",
           "No uses impulso de piernas"
         ],
-        muscleGroup: "Espalda"
+        muscleGroup: "Espalda",
+        equipment: ["mancuernas"]
       },
       {
         id: "d1e6",
@@ -122,7 +130,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Baja controlado",
           "Peso moderado, muchas reps"
         ],
-        muscleGroup: "Trapecios"
+        muscleGroup: "Trapecios",
+        equipment: ["mancuernas"]
       },
       
       // HOMBROS - Con mancuernas
@@ -139,7 +148,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Core activado",
           "Juntar mancuernas arriba"
         ],
-        muscleGroup: "Hombros"
+        muscleGroup: "Hombros",
+        equipment: ["mancuernas", "banco"]
       },
       {
         id: "d1e8",
@@ -154,7 +164,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Controla la bajada",
           "Peso ligero, forma estricta"
         ],
-        muscleGroup: "Hombros"
+        muscleGroup: "Hombros",
+        equipment: ["mancuernas"]
       },
       
       // BÍCEPS - Con mancuernas
@@ -171,7 +182,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Baja en 2-3 segundos",
           "Contrae bíceps arriba"
         ],
-        muscleGroup: "Bíceps"
+        muscleGroup: "Bíceps",
+        equipment: ["mancuernas"]
       },
       {
         id: "d1e10",
@@ -186,7 +198,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae arriba 1 segundo",
           "Peso moderado, control total"
         ],
-        muscleGroup: "Bíceps"
+        muscleGroup: "Bíceps",
+        equipment: ["mancuernas", "banco"]
       },
       
       // TRÍCEPS - Con mancuernas
@@ -203,7 +216,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Extiende completamente arriba",
           "Usa peso moderado"
         ],
-        muscleGroup: "Tríceps"
+        muscleGroup: "Tríceps",
+        equipment: ["mancuernas"]
       },
       {
         id: "d1e12",
@@ -218,7 +232,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae tríceps arriba",
           "Alterna o simultáneo"
         ],
-        muscleGroup: "Tríceps"
+        muscleGroup: "Tríceps",
+        equipment: ["mancuernas", "banco"]
       }
     ]
   },
@@ -244,7 +259,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Espalda recta, pecho arriba",
           "No levantes talones"
         ],
-        muscleGroup: "Cuádriceps"
+        muscleGroup: "Cuádriceps",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e2",
@@ -259,7 +275,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Rodilla trasera casi toca suelo",
           "Empuja con talón delantero"
         ],
-        muscleGroup: "Pierna/Glúteos"
+        muscleGroup: "Pierna/Glúteos",
+        equipment: ["mancuernas", "banco"]
       },
       {
         id: "d2e3",
@@ -274,7 +291,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Siente estiramiento en isquios",
           "Contrae glúteos arriba"
         ],
-        muscleGroup: "Isquiotibiales"
+        muscleGroup: "Isquiotibiales",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e4",
@@ -289,7 +307,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Torso vertical",
           "Alterna piernas o haz todas con una y cambias"
         ],
-        muscleGroup: "Pierna"
+        muscleGroup: "Pierna",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e5",
@@ -304,7 +323,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Baja hasta paralelo al suelo",
           "Contrae glúteo al subir"
         ],
-        muscleGroup: "Isquiotibiales/Glúteos"
+        muscleGroup: "Isquiotibiales/Glúteos",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e6",
@@ -319,7 +339,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mantén mancuerna pegada al pecho",
           "Controla el descenso"
         ],
-        muscleGroup: "Pierna/Potencia"
+        muscleGroup: "Pierna/Potencia",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e7",
@@ -334,7 +355,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae gemelos arriba",
           "Peso moderado, muchas reps"
         ],
-        muscleGroup: "Gemelos"
+        muscleGroup: "Gemelos",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e8",
@@ -349,7 +371,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Aprieta glúteos arriba 1-2 seg",
           "Solo eleva caderas, no espalda"
         ],
-        muscleGroup: "Glúteos"
+        muscleGroup: "Glúteos",
+        equipment: ["mancuernas"]
       },
       
       // CORE - Solo peso corporal o mancuernas
@@ -366,7 +389,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mancuerna ligera",
           "Espira en la subida"
         ],
-        muscleGroup: "Core"
+        muscleGroup: "Core",
+        equipment: ["mancuernas"]
       },
       {
         id: "d2e10",
@@ -381,7 +405,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mira al suelo",
           "Contrae abdomen y glúteos"
         ],
-        muscleGroup: "Core"
+        muscleGroup: "Core",
+        equipment: ["sin_peso"]
       },
       {
         id: "d2e11",
@@ -396,7 +421,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Puedes levantar pies o apoyarlos",
           "Controla el movimiento"
         ],
-        muscleGroup: "Core/Oblicuos"
+        muscleGroup: "Core/Oblicuos",
+        equipment: ["mancuernas"]
       }
     ]
   },
@@ -422,7 +448,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mantén ritmo constante",
           "Respira: baja inspira, sube expulsa"
         ],
-        muscleGroup: "Full Body"
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e2",
@@ -437,7 +464,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "No redondees espalda",
           "Sincroniza con respiración"
         ],
-        muscleGroup: "Full Body"
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e3",
@@ -452,7 +480,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Press completo arriba",
           "Controla la bajada"
         ],
-        muscleGroup: "Full Body"
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e4",
@@ -467,7 +496,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Contrae glúteos al impulsar",
           "Rodillas ligeramente flexionadas"
         ],
-        muscleGroup: "Posterior"
+        muscleGroup: "Posterior",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e5",
@@ -482,7 +512,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Movimiento controlado",
           "Alterna brazos"
         ],
-        muscleGroup: "Core/Espalda"
+        muscleGroup: "Core/Espalda",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e6",
@@ -497,7 +528,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Control en todo momento",
           "Peso moderado, no máximo"
         ],
-        muscleGroup: "Full Body"
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e7",
@@ -512,7 +544,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mantén ritmo estable",
           "Respira, no aguantes"
         ],
-        muscleGroup: "Core/Cardio"
+        muscleGroup: "Core/Cardio",
+        equipment: ["sin_peso"]
       },
       {
         id: "d3e8",
@@ -527,7 +560,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Mantén ritmo cardíaco alto",
           "No pareces hasta el tiempo"
         ],
-        muscleGroup: "Cardio"
+        muscleGroup: "Cardio",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e9",
@@ -542,7 +576,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Alterna brazos",
           "Control total del cuerpo"
         ],
-        muscleGroup: "Core/Espalda"
+        muscleGroup: "Core/Espalda",
+        equipment: ["mancuernas"]
       },
       {
         id: "d3e10",
@@ -557,7 +592,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "No pares hasta el verdadero fallo",
           "Sprint final, vacía el tanque"
         ],
-        muscleGroup: "Full Body"
+        muscleGroup: "Full Body",
+        equipment: ["sin_peso"]
       }
     ]
   }
