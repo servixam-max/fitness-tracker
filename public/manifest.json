@@ -1,0 +1,48 @@
+{
+  "name": "Fitness Tracker - Tu Rutina",
+  "short_name": "Fitness",
+  "description": "App de entrenamiento personal con rutina de fuerza y HIIT",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0f",
+  "theme_color": "#f97316",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["fitness", "health", "sports"],
+  "shortcuts": [
+    {
+      "name": "Día 1 - Tronco",
+      "short_name": "Día 1",
+      "description": "Pecho, Espalda y Brazos",
+      "url": "/workout/day1",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Día 2 - Pierna",
+      "short_name": "Día 2",
+      "description": "Piernas y Core",
+      "url": "/workout/day2",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Día 3 - HIIT",
+      "short_name": "Día 3",
+      "description": "Full Body HIIT",
+      "url": "/workout/day3",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

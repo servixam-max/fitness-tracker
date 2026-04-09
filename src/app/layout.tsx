@@ -16,6 +16,7 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
     title: "Fitness Tracker",
   },
+  themeColor: "#f97316",
 };
 
 export const viewport: Viewport = {

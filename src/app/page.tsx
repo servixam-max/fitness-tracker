@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Dumbbell, Flame, Timer, ChevronRight, Trophy, Droplets, Info } from "lucide-react";
+import { Dumbbell, Flame, Timer, ChevronRight, Trophy, Droplets, Info, History } from "lucide-react";
 import { WORKOUT_DAYS, TIPS } from "@/data/workouts";
 import Link from "next/link";
 
@@ -29,6 +29,15 @@ export default function Home() {
         </div>
         
         <div className="flex items-center gap-2 mt-4">
+          <Link href="/history">
+            <motion.button
+              className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-sm"
+              whileTap={{ scale: 0.95 }}
+            >
+              <History size={16} />
+              Historial
+            </motion.button>
+          </Link>
           <motion.button
             onClick={() => setShowTips(!showTips)}
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-sm"
