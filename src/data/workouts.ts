@@ -70,6 +70,7 @@ export interface WorkoutDay {
   subtitle: string;
   color: string;
   duration: string;
+  estimatedCalories: number;
   exercises: Exercise[];
   completed: boolean;
 }
@@ -81,6 +82,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     subtitle: "Pecho, Espalda y Brazos",
     color: "from-blue-500 to-cyan-500",
     duration: "45-60 min",
+    estimatedCalories: 350,
     completed: false,
     exercises: [
       // PECHO - En banco plano con mancuernas
@@ -292,6 +294,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     subtitle: "Piernas y Core",
     color: "from-red-500 to-orange-500",
     duration: "50-65 min",
+    estimatedCalories: 400,
     completed: false,
     exercises: [
       // PIERNAS - Con mancuernas
@@ -483,6 +486,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     subtitle: "Full Body HIIT con Mancuernas",
     color: "from-green-500 to-emerald-500",
     duration: "30-40 min",
+    estimatedCalories: 450,
     completed: false,
     exercises: [
       // HIIT - Circuito completo

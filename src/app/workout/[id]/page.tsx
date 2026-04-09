@@ -64,6 +64,7 @@ export default function WorkoutPage() {
   const [expandedExercise, setExpandedExercise] = useState<string | null>(null);
   const [completedSets, setCompletedSets] = useState<Record<string, number[]>>({});
   const [showGuidedSession, setShowGuidedSession] = useState(false);
+  const [workoutStartTime, setWorkoutStartTime] = useState<number | null>(null);
   const globalTimer = useTimer();
 
   useEffect(() => {
@@ -136,11 +137,16 @@ export default function WorkoutPage() {
       {showGuidedSession && day && (
         <GuidedSession
           day={day}
+          startTime={workoutStartTime || undefined}
           onComplete={() => {
             setShowGuidedSession(false);
+            setWorkoutStartTime(null);
             router.push('/');
           }}
-          onExit={() => setShowGuidedSession(false)}
+          onExit={() => {
+            setShowGuidedSession(false);
+            setWorkoutStartTime(null);
+          }}
         />
       )}
 
@@ -203,7 +209,10 @@ export default function WorkoutPage() {
         
         {/* Guided Session Button */}
         <button
-          onClick={() => setShowGuidedSession(true)}
+          onClick={() => {
+            setWorkoutStartTime(Date.now());
+            setShowGuidedSession(true);
+          }}
           className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold flex items-center justify-center gap-3 shadow-lg shadow-orange-500/25 active:scale-95 transition-transform"
         >
           <Headphones size={24} />

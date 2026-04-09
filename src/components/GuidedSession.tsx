@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, SkipForward, Check, X, Volume2, VolumeX, Timer, Flame } from "lucide-react";
 import { WorkoutDay, Exercise, getExerciseMedia } from "@/data/workouts";
 import { useSpeech, useSounds } from "@/hooks/useSpeech";
+import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import ExerciseGIF from "./ExerciseGIF";
 import LiteYouTube from "./LiteYouTube";
 
@@ -12,6 +13,7 @@ interface GuidedSessionProps {
   day: WorkoutDay;
   onComplete: () => void;
   onExit: () => void;
+  startTime?: number; // Timestamp when workout started
 }
 
 type SessionPhase = "intro" | "countdown" | "exercise" | "rest" | "completed";
@@ -27,9 +29,10 @@ interface SessionState {
   completedSets: Record<string, number[]>;
 }
 
-export default function GuidedSession({ day, onComplete, onExit }: GuidedSessionProps) {
+export default function GuidedSession({ day, onComplete, onExit, startTime }: GuidedSessionProps) {
   const { speak, cancel: cancelSpeech } = useSpeech();
   const { playStartExercise, playRestEnd, playSetComplete, playWorkoutComplete, playCountdown } = useSounds();
+  const { addSession } = useWorkoutHistory();
   
   const [state, setState] = useState<SessionState>({
     phase: "intro",
@@ -114,6 +117,8 @@ export default function GuidedSession({ day, onComplete, onExit }: GuidedSession
     };
   }, [state.phase, state.countdown, state.isPlaying]);
 
+  const workoutStartTime = useRef<number>(startTime || Date.now());
+
   const moveToNextExercise = useCallback(() => {
     const nextIndex = state.currentExerciseIndex + 1;
     if (nextIndex >= day.exercises.length) {
@@ -121,6 +126,22 @@ export default function GuidedSession({ day, onComplete, onExit }: GuidedSession
       setState(s => ({ ...s, phase: "completed" }));
       playWorkoutComplete();
       announce(`¡Entrenamiento completado! ${day.name} terminado. ¡Buen trabajo!`);
+      
+      // Save to history
+      const durationSeconds = Math.floor((Date.now() - workoutStartTime.current) / 1000);
+      const totalSets = day.exercises.reduce((sum, ex) => sum + ex.sets, 0);
+      const completedSetsCount = Object.values(state.completedSets).reduce((sum, sets) => sum + sets.length, 0);
+      
+      addSession({
+        dayId: day.id,
+        dayName: day.name,
+        completedExercises: day.exercises.length,
+        totalExercises: day.exercises.length,
+        completedSets: completedSetsCount,
+        totalSets: totalSets,
+        durationSeconds,
+        caloriesBurned: day.estimatedCalories,
+      });
     } else {
       // Next exercise
       setState(s => ({

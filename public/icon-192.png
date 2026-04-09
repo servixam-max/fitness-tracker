@@ -1,0 +1,11 @@
+<!-- Simple PWA Icon placeholder - 192x192 orange dumbbell on dark background -->
+<svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="192" height="192" rx="40" fill="#0a0a0f"/>
+  <!-- Dumbbell -->
+  <rect x="40" y="88" width="112" height="16" rx="8" fill="#f97316"/>
+  <rect x="32" y="72" width="24" height="48" rx="8" fill="#f97316"/>
+  <rect x="136" y="72" width="24" height="48" rx="8" fill="#f97316"/>
+  <!-- Weight plates -->
+  <rect x="28" y="68" width="12" height="56" rx="4" fill="#ea580c"/>
+  <rect x="152" y="68" width="12" height="56" rx="4" fill="#ea580c"/>
+</svg>
