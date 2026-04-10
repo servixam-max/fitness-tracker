@@ -12,6 +12,7 @@ import ExerciseSearch from "@/components/ExerciseSearch";
 import WaterTracker from "@/components/WaterTracker";
 import BodyWeightTracker from "@/components/BodyWeightTracker";
 import MacroTracker from "@/components/MacroTracker";
+import SleepTracker from "@/components/SleepTracker";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -135,6 +136,9 @@ export default function Home() {
 
       {/* Macro Tracker */}
       <MacroTracker />
+
+      {/* Sleep Tracker */}
+      <SleepTracker />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
