@@ -9,6 +9,7 @@ import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import HomeStats from "@/components/HomeStats";
 import QuickActions from "@/components/QuickActions";
 import ExerciseSearch from "@/components/ExerciseSearch";
+import WaterTracker from "@/components/WaterTracker";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -123,6 +124,9 @@ export default function Home() {
 
       {/* Quick Actions */}
       <QuickActions />
+
+      {/* Water Tracker */}
+      <WaterTracker />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
