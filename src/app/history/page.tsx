@@ -6,6 +6,7 @@ import { ArrowLeft, Calendar, Flame, Clock, Dumbbell, Trophy, Trash2, Award } fr
 import { useRouter } from "next/navigation";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import Achievements from "@/components/Achievements";
+import WeeklyProgress from "@/components/WeeklyProgress";
 
 export default function HistoryPage() {
   const router = useRouter();
@@ -106,6 +107,9 @@ export default function HistoryPage() {
           totalCalories={getTotalCalories()}
           completedExercises={history.reduce((sum, h) => sum + h.completedExercises, 0)}
         />
+
+        {/* Weekly Progress */}
+        <WeeklyProgress workoutHistory={history} />
       </motion.header>
 
       {/* History List */}
