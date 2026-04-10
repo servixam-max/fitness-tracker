@@ -8,10 +8,12 @@ import Link from "next/link";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import HomeStats from "@/components/HomeStats";
 import QuickActions from "@/components/QuickActions";
+import ExerciseSearch from "@/components/ExerciseSearch";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [showTips, setShowTips] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
   const { history, streak, getTotalCalories, getTotalWorkouts } = useWorkoutHistory();
 
   // Calculate weekly workouts
@@ -63,12 +65,12 @@ export default function Home() {
             </motion.button>
           </Link>
           <motion.button
-            onClick={() => setShowTips(!showTips)}
+            onClick={() => setShowSearch(true)}
             className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-sm"
             whileTap={{ scale: 0.95 }}
           >
             <Info size={16} />
-            Consejos
+            Buscar
           </motion.button>
           <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-sm">
             <Droplets size={14} />
@@ -76,6 +78,13 @@ export default function Home() {
           </div>
         </div>
       </motion.header>
+
+      {/* Search Overlay */}
+      <AnimatePresence>
+        {showSearch && (
+          <ExerciseSearch onClose={() => setShowSearch(false)} />
+        )}
+      </AnimatePresence>
 
       {/* Tips Section */}
       <AnimatePresence>
