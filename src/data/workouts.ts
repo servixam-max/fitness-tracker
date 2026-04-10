@@ -40,10 +40,25 @@ const EXERCISE_IMAGES: Record<string, { gif: string; videoId?: string; isTimeBas
   "d3e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/burpee.gif", videoId: "d8bZ7bQ3z1o", isTimeBased: true },
 };
 
-// Fallback a imágenes de placeholder si la API falla
 export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean } {
-  return EXERCISE_IMAGES[exerciseId] || { 
+  const media = EXERCISE_IMAGES[exerciseId];
+  if (media) return media;
+  
+  // Fallback
+  return { 
     gif: `https://placehold.co/400x300/141419/3b82f6?text=${encodeURIComponent(exerciseId)}`,
+  };
+}
+
+// Get video info for exercise
+export function getExerciseVideo(exerciseId: string): { videoId: string; thumbnail: string; embedUrl: string } | null {
+  const media = EXERCISE_IMAGES[exerciseId];
+  if (!media?.videoId) return null;
+  
+  return {
+    videoId: media.videoId,
+    thumbnail: `https://img.youtube.com/vi/${media.videoId}/maxresdefault.jpg`,
+    embedUrl: `https://www.youtube.com/embed/${media.videoId}?rel=0&modestbranding=1&playsinline=1`,
   };
 }
 

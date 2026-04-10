@@ -11,8 +11,7 @@ import {
 import { WORKOUT_DAYS, toggleExerciseComplete, getProgress, resetProgress, Equipment } from "@/data/workouts";
 import ExerciseIcon from "@/components/ExerciseIcon";
 import ExerciseGIF from "@/components/ExerciseGIF";
-import LiteYouTube from "@/components/LiteYouTube";
-import VideoPlayer from "@/components/VideoPlayer";
+import EnhancedVideoPlayer from "@/components/EnhancedVideoPlayer";
 import GuidedSession from "@/components/GuidedSession";
 import WeightTracker from "@/components/WeightTracker";
 
@@ -327,13 +326,28 @@ export default function WorkoutPage() {
                   >
                     <div className="p-4 space-y-4">
                       {/* Video Section */}
-                      {exercise.videoId && (
+                      {exercise.videoId ? (
                         <div>
                           <h4 className="font-semibold mb-2 text-blue-400 flex items-center gap-2">
                             <Play size={16} />
                             Video Demostrativo
                           </h4>
-                          <VideoPlayer videoId={exercise.videoId} title={exercise.name} />
+                          <EnhancedVideoPlayer 
+                            exerciseId={exercise.id} 
+                            title={exercise.name}
+                            className="w-full"
+                          />
+                        </div>
+                      ) : (
+                        /* Show GIF if no video */
+                        <div>
+                          <h4 className="font-semibold mb-2 text-orange-400 flex items-center gap-2">
+                            <Play size={16} />
+                            Demostración
+                          </h4>
+                          <div className="flex justify-center">
+                            <ExerciseGIF exerciseId={exercise.id} size="lg" />
+                          </div>
                         </div>
                       )}
 

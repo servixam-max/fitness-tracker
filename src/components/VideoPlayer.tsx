@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { Play, Maximize } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { Play, Maximize, Youtube } from "lucide-react";
 
 interface VideoPlayerProps {
   videoId: string;
@@ -11,88 +11,98 @@ interface VideoPlayerProps {
 
 export default function VideoPlayer({ videoId, title = "Video demostrativo", className = "" }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [loaded, setLoaded] = useState(false);
+  const [thumbnailLoaded, setThumbnailLoaded] = useState(false);
+  const [thumbnailError, setThumbnailError] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+
+  // Preload thumbnail
+  useEffect(() => {
+    const img = new Image();
+    img.src = thumbnailUrl;
+    img.onload = () => setThumbnailLoaded(true);
+    img.onerror = () => setThumbnailError(true);
+  }, [thumbnailUrl]);
 
   return (
-    <div className={`relative group ${className}`}>
+    <div className={`relative overflow-hidden rounded-2xl shadow-2xl ${className}`}>
       {/* Main Container */}
-      <div className="relative aspect-video bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
+      <div className="relative aspect-video bg-gradient-to-br from-zinc-900 to-black">
         {!isPlaying ? (
           /* Thumbnail View */
           <button
             onClick={() => setIsPlaying(true)}
-            className="relative w-full h-full group"
+            className="relative w-full h-full group text-left"
+            type="button"
           >
-            {/* High-Quality Thumbnail */}
-            <img
-              src={thumbnailUrl}
-              alt={title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
-              onError={(e) => {
-                // Fallback to hqdefault if maxresdefault fails
-                (e.target as HTMLImageElement).src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+            {/* Background Image */}
+            <div 
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+              style={{ 
+                backgroundImage: thumbnailError 
+                  ? `linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)`
+                  : `url(${thumbnailUrl})`,
               }}
             />
             
-            {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+            {/* Overlay Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
             
-            {/* Play Button */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                {/* Outer Ring */}
-                <div className="absolute inset-0 rounded-full bg-red-600 blur-xl opacity-60 group-hover:opacity-80 transition-opacity" />
+            {/* Content Container */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6">
+              {/* Play Button */}
+              <div className="relative mb-4">
+                {/* Pulsing Ring */}
+                <div className="absolute inset-0 rounded-full bg-red-600 animate-ping opacity-75" />
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600 to-orange-600 blur-md" />
                 
                 {/* Main Button */}
-                <div className="relative w-24 h-24 rounded-full bg-red-600 flex items-center justify-center shadow-2xl shadow-red-600/50 group-hover:scale-110 transition-all duration-300">
-                  <Play size={40} className="text-white ml-1" fill="white" />
+                <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-300">
+                  <Play size={36} className="text-white ml-1" fill="white" />
                 </div>
               </div>
-            </div>
 
-            {/* Title & Info */}
-            <div className="absolute bottom-0 left-0 right-0 p-4">
-              <p className="text-white font-bold text-lg drop-shadow-lg mb-1">{title}</p>
-              <div className="flex items-center gap-2 text-white/80 text-sm">
-                <span className="flex items-center gap-1">
-                  <Play size={12} />
-                  YouTube
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Maximize size={12} />
-                  HD
-                </span>
+              {/* Title */}
+              <p className="text-white font-bold text-center text-lg drop-shadow-2xl px-4">
+                {title}
+              </p>
+
+              {/* Badge */}
+              <div className="mt-3 flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-600/90 backdrop-blur text-white text-xs font-semibold">
+                <Youtube size={14} />
+                <span>VIDEO DEMOSTRATIVO</span>
               </div>
             </div>
 
-            {/* Quality Badge */}
-            <div className="absolute top-3 right-3 px-2 py-1 rounded-md bg-red-600 text-white text-xs font-bold">
-              VIDEO
+            {/* Corner Badge */}
+            <div className="absolute top-3 right-3 flex items-center gap-2">
+              <div className="px-2 py-1 rounded-md bg-black/60 backdrop-blur text-white text-xs font-bold flex items-center gap-1">
+                <Maximize size={12} />
+                HD
+              </div>
+            </div>
+
+            {/* Duration Badge (fake, for aesthetics) */}
+            <div className="absolute bottom-3 right-3 px-2 py-1 rounded-md bg-black/80 backdrop-blur text-white text-xs font-medium">
+              ▶️ Click para reproducir
             </div>
           </button>
         ) : (
           /* Iframe View */
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&autoplay=1`}
-            title={title}
-            className="w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            onLoad={() => setLoaded(true)}
-          />
+          <div className="relative w-full h-full">
+            <iframe
+              ref={iframeRef}
+              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&autoplay=1`}
+              title={title}
+              className="absolute inset-0 w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         )}
       </div>
-
-      {/* Loading Indicator */}
-      {!loaded && isPlaying && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="w-12 h-12 rounded-full border-4 border-red-600 border-t-transparent animate-spin" />
-        </div>
-      )}
     </div>
   );
 }
