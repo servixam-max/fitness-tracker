@@ -2,9 +2,10 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, Flame, Clock, Dumbbell, Trophy, Trash2 } from "lucide-react";
+import { ArrowLeft, Calendar, Flame, Clock, Dumbbell, Trophy, Trash2, Award } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
+import Achievements from "@/components/Achievements";
 
 export default function HistoryPage() {
   const router = useRouter();
@@ -97,6 +98,14 @@ export default function HistoryPage() {
             <p className="text-3xl font-bold text-orange-400">~{getTotalCalories()} kcal</p>
           </motion.div>
         </div>
+
+        {/* Achievements */}
+        <Achievements 
+          totalWorkouts={getTotalWorkouts()}
+          streak={streak}
+          totalCalories={getTotalCalories()}
+          completedExercises={history.reduce((sum, h) => sum + h.completedExercises, 0)}
+        />
       </motion.header>
 
       {/* History List */}
