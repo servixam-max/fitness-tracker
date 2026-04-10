@@ -11,6 +11,7 @@ import QuickActions from "@/components/QuickActions";
 import ExerciseSearch from "@/components/ExerciseSearch";
 import WaterTracker from "@/components/WaterTracker";
 import BodyWeightTracker from "@/components/BodyWeightTracker";
+import MacroTracker from "@/components/MacroTracker";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -131,6 +132,9 @@ export default function Home() {
 
       {/* Body Weight Tracker */}
       <BodyWeightTracker />
+
+      {/* Macro Tracker */}
+      <MacroTracker />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
