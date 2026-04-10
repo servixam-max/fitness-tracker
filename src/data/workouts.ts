@@ -40,13 +40,18 @@ const EXERCISE_IMAGES: Record<string, { gif: string; videoId?: string; isTimeBas
   "d3e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/burpee.gif", videoId: "d8bZ7bQ3z1o", isTimeBased: true },
 };
 
-export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean } {
+export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean; duration?: number } {
   const media = EXERCISE_IMAGES[exerciseId];
   if (media) return media;
   
-  // Fallback
+  // Fallback con emoji del músculo
+  const exercise = WORKOUT_DAYS.flatMap(d => d.exercises).find(e => e.id === exerciseId);
+  const muscle = exercise?.muscleGroup || 'Ejercicio';
+  
   return { 
-    gif: `https://placehold.co/400x300/141419/3b82f6?text=${encodeURIComponent(exerciseId)}`,
+    gif: `https://placehold.co/400x300/1a1a2e/ef4444?text=${encodeURIComponent(muscle)}`,
+    isTimeBased: exercise?.isTimeBased,
+    duration: exercise?.duration,
   };
 }
 

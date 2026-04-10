@@ -119,8 +119,32 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
   }, [state.phase, state.countdown, state.isPlaying]);
 
   const [showSummary, setShowSummary] = useState(false);
+  const [timeBasedRemaining, setTimeBasedRemaining] = useState(duration);
 
   const workoutStartTime = useRef<number>(startTime || Date.now());
+
+  // Timer for time-based exercises
+  useEffect(() => {
+    if (state.phase === "exercise" && isTimeBased && state.isPlaying && timeBasedRemaining > 0) {
+      timerRef.current = setTimeout(() => {
+        setTimeBasedRemaining(t => t - 1);
+        // Announce at 10, 5, 3 seconds
+        if (timeBasedRemaining <= 10 && timeBasedRemaining > 1) {
+          announce(`${timeBasedRemaining}`);
+        }
+      }, 1000);
+    } else if (state.phase === "exercise" && isTimeBased && timeBasedRemaining === 0) {
+      handleTimeBasedComplete();
+    }
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [state.phase, isTimeBased, state.isPlaying, timeBasedRemaining]);
+
+  // Reset timer when exercise changes
+  useEffect(() => {
+    if (currentExercise) {
+      setTimeBasedRemaining(currentExercise.duration || 60);
+    }
+  }, [state.currentExerciseIndex, currentExercise]);
 
   const moveToNextExercise = useCallback(() => {
     const nextIndex = state.currentExerciseIndex + 1;
@@ -302,7 +326,7 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
                 animate={{ scale: 1 }}
               >
                 <p className="text-zinc-400 mb-2">Tiempo restante</p>
-                <div className="text-7xl font-bold text-orange-500">{duration}s</div>
+                <div className="text-7xl font-bold text-orange-500 tabular-nums">{timeBasedRemaining}s</div>
               </motion.div>
             )}
 
