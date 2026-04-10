@@ -67,6 +67,18 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
     }
   }, [state.isMuted, speak]);
 
+  // Intro countdown
+  useEffect(() => {
+    if (state.phase === "intro" && state.countdown > 0 && state.isPlaying) {
+      timerRef.current = setTimeout(() => {
+        setState(s => ({ ...s, countdown: s.countdown - 1 }));
+      }, 1000);
+    } else if (state.phase === "intro" && state.countdown === 0) {
+      setState(s => ({ ...s, phase: "countdown", countdown: 3 }));
+    }
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [state.phase, state.countdown, state.isPlaying]);
+
   // Start intro
   useEffect(() => {
     if (state.phase === "intro") {
