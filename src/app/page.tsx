@@ -10,6 +10,7 @@ import HomeStats from "@/components/HomeStats";
 import QuickActions from "@/components/QuickActions";
 import ExerciseSearch from "@/components/ExerciseSearch";
 import WaterTracker from "@/components/WaterTracker";
+import BodyWeightTracker from "@/components/BodyWeightTracker";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -127,6 +128,9 @@ export default function Home() {
 
       {/* Water Tracker */}
       <WaterTracker />
+
+      {/* Body Weight Tracker */}
+      <BodyWeightTracker />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
