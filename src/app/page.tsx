@@ -7,6 +7,7 @@ import { WORKOUT_DAYS, TIPS } from "@/data/workouts";
 import Link from "next/link";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import HomeStats from "@/components/HomeStats";
+import QuickActions from "@/components/QuickActions";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -110,6 +111,9 @@ export default function Home() {
         totalCalories={getTotalCalories()}
         weeklyWorkouts={weeklyWorkouts}
       />
+
+      {/* Quick Actions */}
+      <QuickActions />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
