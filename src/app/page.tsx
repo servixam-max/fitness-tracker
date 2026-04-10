@@ -5,10 +5,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Dumbbell, Flame, Timer, ChevronRight, Trophy, Droplets, Info, History, Settings } from "lucide-react";
 import { WORKOUT_DAYS, TIPS } from "@/data/workouts";
 import Link from "next/link";
+import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
+import HomeStats from "@/components/HomeStats";
 
 export default function Home() {
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [showTips, setShowTips] = useState(false);
+  const { history, streak, getTotalCalories, getTotalWorkouts } = useWorkoutHistory();
+
+  // Calculate weekly workouts
+  const getWeeklyWorkouts = () => {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+    
+    return history.filter(h => new Date(h.date) >= startOfWeek).length;
+  };
+
+  const weeklyWorkouts = getWeeklyWorkouts();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-900 to-black">
@@ -87,6 +102,14 @@ export default function Home() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Home Stats */}
+      <HomeStats
+        totalWorkouts={getTotalWorkouts()}
+        streak={streak}
+        totalCalories={getTotalCalories()}
+        weeklyWorkouts={weeklyWorkouts}
+      />
 
       {/* Workout Days */}
       <div className="px-6 pb-24 space-y-4">
