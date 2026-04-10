@@ -8,6 +8,7 @@ import { useSpeech, useSounds } from "@/hooks/useSpeech";
 import { useWorkoutHistory } from "@/hooks/useWorkoutHistory";
 import ExerciseGIF from "./ExerciseGIF";
 import VideoPlayer from "./VideoPlayer";
+import WorkoutSummary from "./WorkoutSummary";
 
 interface GuidedSessionProps {
   day: WorkoutDay;
@@ -117,21 +118,19 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
     };
   }, [state.phase, state.countdown, state.isPlaying]);
 
+  const [showSummary, setShowSummary] = useState(false);
+
   const workoutStartTime = useRef<number>(startTime || Date.now());
 
   const moveToNextExercise = useCallback(() => {
     const nextIndex = state.currentExerciseIndex + 1;
     if (nextIndex >= day.exercises.length) {
       // Workout complete!
-      setState(s => ({ ...s, phase: "completed" }));
-      playWorkoutComplete();
-      announce(`¡Entrenamiento completado! ${day.name} terminado. ¡Buen trabajo!`);
-      
-      // Save to history
       const durationSeconds = Math.floor((Date.now() - workoutStartTime.current) / 1000);
       const totalSets = day.exercises.reduce((sum, ex) => sum + ex.sets, 0);
       const completedSetsCount = Object.values(state.completedSets).reduce((sum, sets) => sum + sets.length, 0);
       
+      // Save to history first
       addSession({
         dayId: day.id,
         dayName: day.name,
@@ -142,6 +141,10 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
         durationSeconds,
         caloriesBurned: day.estimatedCalories,
       });
+      
+      // Then show summary
+      setShowSummary(true);
+      playWorkoutComplete();
     } else {
       // Next exercise
       setState(s => ({
@@ -208,36 +211,26 @@ export default function GuidedSession({ day, onComplete, onExit, startTime }: Gu
     moveToNextExercise();
   }, [moveToNextExercise]);
 
+  // Render Summary
+  if (showSummary) {
+    return (
+      <WorkoutSummary
+        dayName={day.name}
+        daySubtitle={day.subtitle}
+        completedExercises={day.exercises.length}
+        totalExercises={day.exercises.length}
+        completedSets={Object.values(state.completedSets).reduce((sum, sets) => sum + sets.length, 0)}
+        totalSets={day.exercises.reduce((sum, ex) => sum + ex.sets, 0)}
+        durationSeconds={Math.floor((Date.now() - workoutStartTime.current) / 1000)}
+        calories={day.estimatedCalories}
+        onContinue={onComplete}
+      />
+    );
+  }
+
   // Render based on phase
   if (state.phase === "completed") {
-    return (
-      <motion.div
-        className="fixed inset-0 z-50 bg-gradient-to-b from-green-900/90 to-black flex items-center justify-center p-6"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
-        <div className="text-center">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", delay: 0.2 }}
-            className="text-8xl mb-6"
-          >
-            🏆
-          </motion.div>
-          <h2 className="text-4xl font-bold text-white mb-4">¡Entrenamiento Completado!</h2>
-          <p className="text-xl text-green-300 mb-8">{day.name} - {day.subtitle}</p>
-          <div className="flex gap-4 justify-center">
-            <button
-              onClick={onComplete}
-              className="px-8 py-4 rounded-2xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg"
-            >
-              Terminar
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    );
+    return null; // Summary is shown instead
   }
 
   return (
