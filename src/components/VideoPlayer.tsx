@@ -94,7 +94,7 @@ export default function VideoPlayer({ videoId, title = "Video demostrativo", cla
           <div className="relative w-full h-full">
             <iframe
               ref={iframeRef}
-              src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&autoplay=1`}
+              src={`https://piped.video/embed/${videoId}?rel=0&modestbranding=1&playsinline=1&autoplay=1`}
               title={title}
               className="absolute inset-0 w-full h-full"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

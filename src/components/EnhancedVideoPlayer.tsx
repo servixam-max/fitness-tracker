@@ -30,7 +30,7 @@ export default function EnhancedVideoPlayer({
       const vid = media.videoId;
       setVideoId(vid);
       setThumbnail(`https://img.youtube.com/vi/${vid}/hqdefault.jpg`);
-      setEmbedUrl(`https://www.youtube.com/embed/${vid}?rel=0&modestbranding=1&playsinline=1`);
+      setEmbedUrl(`https://piped.video/embed/${vid}?rel=0&modestbranding=1&playsinline=1`);
       
       // Preload thumbnail
       const img = new Image();

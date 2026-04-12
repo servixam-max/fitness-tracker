@@ -4,7 +4,7 @@ export function getYouTubeVideo(videoId: string) {
   return {
     thumbnail: `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
     thumbnailHQ: `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
-    embedUrl: `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`,
+    embedUrl: `https://piped.video/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`,
     watchUrl: `https://www.youtube.com/watch?v=${videoId}`,
   };
 }
