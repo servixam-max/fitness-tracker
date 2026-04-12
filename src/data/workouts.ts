@@ -63,7 +63,7 @@ export function getExerciseVideo(exerciseId: string): { videoId: string; thumbna
   return {
     videoId: media.videoId,
     thumbnail: `https://img.youtube.com/vi/${media.videoId}/maxresdefault.jpg`,
-    embedUrl: `https://piped.video/embed/${media.videoId}?rel=0&modestbranding=1&playsinline=1`,
+    embedUrl: `https://www.youtube.com/embed/${media.videoId}?rel=0&modestbranding=1&playsinline=1`,
   };
 }
 
