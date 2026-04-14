@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { getExerciseMedia } from "@/data/workouts";
 
 interface ExerciseGIFProps {
   exerciseId: string;
@@ -34,12 +33,43 @@ const MUSCLE_STYLES: Record<string, { gradient: string; emoji: string; label: st
   "Cardio": { gradient: "from-red-500 via-orange-400 to-yellow-400", emoji: "🏃", label: "Cardio" },
 };
 
+// Muscle groups mapped to exercise IDs we have local images for
+const LOCAL_IMAGES: Record<string, string> = {
+  "d1e1": "/exercises/d1e1.png",  // Bench press
+  "d1e3": "/exercises/d1e3.png",  // Pullover
+  "d1e4": "/exercises/d1e4.png",  // Row
+  "d1e5": "/exercises/d1e5.png",  // Upright row
+  "d1e7": "/exercises/d1e7.png",  // Shoulder press
+  "d2e4": "/exercises/d2e4.png",  // Lunges
+  "d3e5": "/exercises/d3e5.png",  // Renegade row
+  "d3e9": "/exercises/d3e9.png",  // Plank row
+};
+
+const MUSCLE_GROUPS: Record<string, string> = {
+  "d1e1": "Pecho", "d1e2": "Pecho", "d1e3": "Pecho/Dorsal",
+  "d1e4": "Espalda", "d1e5": "Espalda", "d1e6": "Trapecios",
+  "d1e7": "Hombros", "d1e8": "Hombros",
+  "d1e9": "Bíceps", "d1e10": "Bíceps", "d1e11": "Tríceps", "d1e12": "Tríceps",
+  "d2e1": "Cuádriceps", "d2e2": "Pierna/Glúteos", "d2e3": "Isquiotibiales",
+  "d2e4": "Pierna", "d2e5": "Isquiotibiales/Glúteos", "d2e6": "Pierna/Potencia",
+  "d2e7": "Gemelos", "d2e8": "Glúteos",
+  "d2e9": "Core", "d2e10": "Core", "d2e11": "Core/Oblicuos",
+  "d3e1": "Full Body", "d3e2": "Full Body", "d3e3": "Full Body",
+  "d3e4": "Posterior", "d3e5": "Core/Espalda", "d3e6": "Full Body",
+  "d3e7": "Core/Cardio", "d3e8": "Cardio", "d3e9": "Core/Espalda", "d3e10": "Full Body",
+};
+
 export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false }: ExerciseGIFProps) {
-  const media = getExerciseMedia(exerciseId);
-  const [thumbLoaded, setThumbLoaded] = React.useState(false);
-  const [thumbError, setThumbError] = React.useState(false);
-  const [gifLoaded, setGifLoaded] = React.useState(false);
-  const [gifError, setGifError] = React.useState(false);
+  const [localError, setLocalError] = React.useState(false);
+  const [localLoaded, setLocalLoaded] = React.useState(false);
+
+  const muscleGroup = MUSCLE_GROUPS[exerciseId] || "Full Body";
+  const muscleStyle = MUSCLE_STYLES[muscleGroup] || MUSCLE_STYLES["Full Body"];
+  const localImage = LOCAL_IMAGES[exerciseId];
+
+  if (showVideo) {
+    return null;
+  }
 
   const sizeClasses = {
     sm: "w-16 h-16",
@@ -62,73 +92,43 @@ export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false
     full: "text-sm",
   };
 
-  const style = MUSCLE_STYLES[media.muscleGroup || ""] || MUSCLE_STYLES["Full Body"] || MUSCLE_STYLES["Full Body"];
-  const muscleGroup = media.muscleGroup || "Full Body";
-  const muscleStyle = MUSCLE_STYLES[muscleGroup] || MUSCLE_STYLES["Full Body"];
-  const hasThumb = !!media.videoId && !thumbError;
-
-  if (showVideo && media.videoId) {
-    return null;
-  }
-
-  // For "full" size, show enhanced card with YouTube thumbnail if available
+  // For "full" size - show large card
   if (size === "full") {
     return (
-      <div className="w-full aspect-video relative rounded-2xl overflow-hidden border border-zinc-700 bg-gradient-to-br from-zinc-800 to-zinc-900">
-        {hasThumb && !gifLoaded ? (
+      <div className={`${sizeClasses[size]} relative rounded-2xl overflow-hidden border border-zinc-700 bg-gradient-to-br from-zinc-800 to-zinc-900`}>
+        {localImage && !localError ? (
           <img
-            src={`https://img.youtube.com/vi/${media.videoId}/maxresdefault.jpg`}
-            alt="Ejercicio"
+            src={localImage}
+            alt={muscleGroup}
             className="w-full h-full object-cover"
-            onLoad={() => setThumbLoaded(true)}
-            onError={() => setThumbError(true)}
-            loading="lazy"
+            onLoad={() => setLocalLoaded(true)}
+            onError={() => setLocalError(true)}
           />
-        ) : null}
-        {gifLoaded ? (
-          <img
-            src={media.gif}
-            alt="Ejercicio"
-            className="w-full h-full object-cover"
-            onError={() => setGifError(true)}
-            loading="lazy"
-          />
-        ) : null}
-        {(!hasThumb || thumbError) && !gifLoaded && (
+        ) : (
           <div className={`w-full h-full bg-gradient-to-br ${muscleStyle.gradient} flex flex-col items-center justify-center gap-2`}>
             <span className="text-7xl">{muscleStyle.emoji}</span>
             <span className="text-white/80 text-sm font-medium px-3 py-1 rounded-full bg-black/30 backdrop-blur-sm">{muscleStyle.label}</span>
           </div>
         )}
-        {hasThumb && thumbLoaded && !gifLoaded && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-            <div className="absolute bottom-2 left-2 px-2 py-1 rounded bg-black/50 backdrop-blur-sm text-white text-xs font-medium">
-              ▶ Ver demostración
-            </div>
-          </div>
+        {localImage && localLoaded && !localError && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         )}
       </div>
     );
   }
 
-  // For sm, md, lg sizes: show gradient card with emoji, or thumbnail if available
+  // For sm, md, lg sizes
   return (
     <div className={`${sizeClasses[size]} relative rounded-2xl overflow-hidden flex-shrink-0 border border-zinc-700/50`}>
-      {hasThumb && !gifError ? (
+      {localImage && !localError ? (
         <>
           <img
-            src={`https://img.youtube.com/vi/${media.videoId}/mqdefault.jpg`}
+            src={localImage}
             alt=""
             className="w-full h-full object-cover"
-            onError={() => setThumbError(true)}
-            loading="lazy"
+            onError={() => setLocalError(true)}
           />
-          <div className={`absolute inset-0 bg-gradient-to-br ${muscleStyle.gradient} opacity-30`} />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className={`${size === 'sm' ? 'text-xs' : 'text-xs'} bg-black/40 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-full font-bold uppercase tracking-wider`}>
-              {muscleStyle.label}
-            </span>
-          </div>
+          <div className={`absolute inset-0 bg-gradient-to-br ${muscleStyle.gradient} opacity-20`} />
         </>
       ) : (
         <div className={`w-full h-full bg-gradient-to-br ${muscleStyle.gradient} flex flex-col items-center justify-center gap-0.5`}>
