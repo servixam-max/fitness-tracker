@@ -3,6 +3,7 @@
   "short_name": "Fitness",
   "description": "App de entrenamiento personal con rutina de fuerza y HIIT",
   "start_url": "/fitness/",
+  "scope": "/fitness/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#f97316",
@@ -12,13 +13,19 @@
       "src": "/fitness/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/fitness/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
+    },
+    {
+      "src": "/fitness/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     }
   ]
 }

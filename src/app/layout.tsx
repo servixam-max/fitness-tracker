@@ -11,13 +11,12 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Fitness Tracker - Tu Rutina",
   description: "App de entrenamiento personal con rutina de fuerza y HIIT",
-  manifest: "/manifest.json",
+  manifest: "/fitness/manifest.json",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
     title: "Fitness Tracker",
   },
-  themeColor: "#f97316",
 };
 
 export const viewport: Viewport = {
@@ -26,6 +25,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: "cover",
+  themeColor: "#f97316",
 };
 
 export default function RootLayout({
@@ -38,6 +38,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="apple-touch-icon" href="/fitness/icons/icon-192.png" />
       </head>
       <body className={`${inter.className} bg-black text-white antialiased min-h-screen`}>
         <OfflineMode />

@@ -40,18 +40,18 @@ const EXERCISE_IMAGES: Record<string, { gif: string; videoId?: string; isTimeBas
   "d3e10": { gif: "https://workoutx.s3.amazonaws.com/gifs/burpee.gif", videoId: "d8bZ7bQ3z1o", isTimeBased: true },
 };
 
-export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean; duration?: number } {
+export function getExerciseMedia(exerciseId: string): { gif: string; videoId?: string; isTimeBased?: boolean; duration?: number; muscleGroup?: string } {
   const media = EXERCISE_IMAGES[exerciseId];
-  if (media) return media;
-  
-  // Fallback con emoji del músculo
   const exercise = WORKOUT_DAYS.flatMap(d => d.exercises).find(e => e.id === exerciseId);
-  const muscle = exercise?.muscleGroup || 'Ejercicio';
+  const muscle = exercise?.muscleGroup || 'Full Body';
+  
+  if (media) return { ...media, muscleGroup: muscle };
   
   return { 
-    gif: `https://placehold.co/400x300/1a1a2e/ef4444?text=${encodeURIComponent(muscle)}`,
+    gif: '',
     isTimeBased: exercise?.isTimeBased,
     duration: exercise?.duration,
+    muscleGroup: muscle,
   };
 }
 
@@ -105,7 +105,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     estimatedCalories: 350,
     completed: false,
     exercises: [
-      // PECHO - En banco plano con mancuernas
+      // PECHO → ESPALDA → HOMBROS alternando para evitar fatiga del mismo músculo
       {
         id: "d1e1",
         name: "Press de Banca con Mancuernas",
@@ -122,40 +122,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Pecho",
         equipment: ["mancuernas", "banco"]
       },
-      {
-        id: "d1e2",
-        name: "Aperturas con Mancuernas (Flyes)",
-        sets: 3,
-        reps: "12-15",
-        rest: "60 seg",
-        instruction: "En banco plano, brazos extendidos con ligera flexión. Abre los brazos hasta sentir estiramiento, cierra juntando las mancuernas.",
-        tips: [
-          "Ligera flexión en los codos (fija)",
-          "Baja hasta sentir estiramiento en pecho",
-          "Movimiento como abrazando un árbol",
-          "No bajes más allá de la línea del pecho"
-        ],
-        muscleGroup: "Pecho",
-        equipment: ["mancuernas", "banco"]
-      },
-      {
-        id: "d1e3",
-        name: "Pullovers con Mancuerna",
-        sets: 3,
-        reps: "12",
-        rest: "60 seg",
-        instruction: "Acostado en banco, sostén una mancuerna con ambas manos sobre el pecho. Lleva la mancuerna tras la cabeza y vuelve.",
-        tips: [
-          "Brazos casi extendidos, ligeramente flexionados",
-          "Siente el estiramiento en dorsal",
-          "Mantén caderas en el banco",
-          "Usa peso moderado, controlado"
-        ],
-        muscleGroup: "Pecho/Dorsal",
-        equipment: ["mancuernas", "banco"]
-      },
-      
-      // ESPALDA - Con mancuernas
+      // ESPALDA
       {
         id: "d1e4",
         name: "Remo con Mancuerna a una Mano",
@@ -172,40 +139,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Espalda",
         equipment: ["mancuernas", "banco"]
       },
-      {
-        id: "d1e5",
-        name: "Remo Alto con Mancuernas",
-        sets: 3,
-        reps: "12",
-        rest: "90 seg",
-        instruction: "De pie, inclinado hacia adelante desde caderas. Mancuernas colgando. Tira codos arriba, hacia el techo.",
-        tips: [
-          "Inclinación de 45°",
-          "Codos altos, por encima de manos",
-          "Contrae trapecios y deltoides posteriores",
-          "No uses impulso de piernas"
-        ],
-        muscleGroup: "Espalda",
-        equipment: ["mancuernas"]
-      },
-      {
-        id: "d1e6",
-        name: "Encogimientos con Mancuernas",
-        sets: 3,
-        reps: "15",
-        rest: "60 seg",
-        instruction: "De pie, mancuernas a los lados. Encoge hombros hacia arriba como diciendo 'no sé', baja controlado.",
-        tips: [
-          "No balancees el cuerpo",
-          "Mantenlo arriba 1-2 segundos",
-          "Baja controlado",
-          "Peso moderado, muchas reps"
-        ],
-        muscleGroup: "Trapecios",
-        equipment: ["mancuernas"]
-      },
-      
-      // HOMBROS - Con mancuernas
+      // HOMBROS
       {
         id: "d1e7",
         name: "Press de Hombros Sentado",
@@ -222,6 +156,41 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Hombros",
         equipment: ["mancuernas", "banco"]
       },
+      // PECHO
+      {
+        id: "d1e2",
+        name: "Aperturas con Mancuernas (Flyes)",
+        sets: 3,
+        reps: "12-15",
+        rest: "60 seg",
+        instruction: "En banco plano, brazos extendidos con ligera flexión. Abre los brazos hasta sentir estiramiento, cierra juntando las mancuernas.",
+        tips: [
+          "Ligera flexión en los codos (fija)",
+          "Baja hasta sentir estiramiento en pecho",
+          "Movimiento como abrazando un árbol",
+          "No bajes más allá de la línea del pecho"
+        ],
+        muscleGroup: "Pecho",
+        equipment: ["mancuernas", "banco"]
+      },
+      // ESPALDA
+      {
+        id: "d1e5",
+        name: "Remo Alto con Mancuernas",
+        sets: 3,
+        reps: "12",
+        rest: "90 seg",
+        instruction: "De pie, inclinado hacia adelante desde caderas. Mancuernas colgando. Tira codos arriba, hacia el techo.",
+        tips: [
+          "Inclinación de 45°",
+          "Codos altos, por encima de manos",
+          "Contrae trapecios y deltoides posteriores",
+          "No uses impulso de piernas"
+        ],
+        muscleGroup: "Espalda",
+        equipment: ["mancuernas"]
+      },
+      // HOMBROS
       {
         id: "d1e8",
         name: "Elevaciones Laterales",
@@ -238,8 +207,41 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Hombros",
         equipment: ["mancuernas"]
       },
-      
-      // BÍCEPS - Con mancuernas
+      // PECHO/DORSAL (transición)
+      {
+        id: "d1e3",
+        name: "Pullovers con Mancuerna",
+        sets: 3,
+        reps: "12",
+        rest: "60 seg",
+        instruction: "Acostado en banco, sostén una mancuerna con ambas manos sobre el pecho. Lleva la mancuerna tras la cabeza y vuelve.",
+        tips: [
+          "Brazos casi extendidos, ligeramente flexionados",
+          "Siente el estiramiento en dorsal",
+          "Mantén caderas en el banco",
+          "Usa peso moderado, controlado"
+        ],
+        muscleGroup: "Pecho/Dorsal",
+        equipment: ["mancuernas", "banco"]
+      },
+      // TRAPECIOS
+      {
+        id: "d1e6",
+        name: "Encogimientos con Mancuernas",
+        sets: 3,
+        reps: "15",
+        rest: "60 seg",
+        instruction: "De pie, mancuernas a los lados. Encoge hombros hacia arriba como diciendo 'no sé', baja controlado.",
+        tips: [
+          "No balancees el cuerpo",
+          "Mantenlo arriba 1-2 segundos",
+          "Baja controlado",
+          "Peso moderado, muchas reps"
+        ],
+        muscleGroup: "Trapecios",
+        equipment: ["mancuernas"]
+      },
+      // BÍCEPS
       {
         id: "d1e9",
         name: "Curl de Bíceps Alterno",
@@ -256,24 +258,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Bíceps",
         equipment: ["mancuernas"]
       },
-      {
-        id: "d1e10",
-        name: "Curl Concentrado Sentado",
-        sets: 3,
-        reps: "12 c/b",
-        rest: "60 seg",
-        instruction: "Sentado en banco, piernas separadas. Apoya codo en interior del muslo. Curl con mancuerna subiendo hacia el hombro.",
-        tips: [
-          "Codo fijo contra el muslo",
-          "Movimiento estricto, sin balanceo",
-          "Contrae arriba 1 segundo",
-          "Peso moderado, control total"
-        ],
-        muscleGroup: "Bíceps",
-        equipment: ["mancuernas", "banco"]
-      },
-      
-      // TRÍCEPS - Con mancuernas
+      // TRÍCEPS
       {
         id: "d1e11",
         name: "Copa de Tríceps (Overhead)",
@@ -290,6 +275,24 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Tríceps",
         equipment: ["mancuernas"]
       },
+      // BÍCEPS
+      {
+        id: "d1e10",
+        name: "Curl Concentrado Sentado",
+        sets: 3,
+        reps: "12 c/b",
+        rest: "60 seg",
+        instruction: "Sentado en banco, piernas separadas. Apoya codo en interior del muslo. Curl con mancuerna subiendo hacia el hombro.",
+        tips: [
+          "Codo fijo contra el muslo",
+          "Movimiento estricto, sin balanceo",
+          "Contrae arriba 1 segundo",
+          "Peso moderado, control total"
+        ],
+        muscleGroup: "Bíceps",
+        equipment: ["mancuernas", "banco"]
+      },
+      // TRÍCEPS
       {
         id: "d1e12",
         name: "Extensión de Tríceps en Banco",
@@ -317,7 +320,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     estimatedCalories: 400,
     completed: false,
     exercises: [
-      // PIERNAS - Con mancuernas
+      // PIERNAS → GLÚTEOS → CORE alternando para evitar fatiga localizada
+      // Cuádriceps
       {
         id: "d2e1",
         name: "Sentadilla Goblet",
@@ -334,102 +338,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Cuádriceps",
         equipment: ["mancuernas"]
       },
-      {
-        id: "d2e2",
-        name: "Sentadilla Búlgara con Mancuernas",
-        sets: 3,
-        reps: "10 c/p",
-        rest: "90 seg",
-        instruction: "Pie trasero sobre el banco (tobillo), mancuernas a los lados. Baja en zancada profunda, sube.",
-        tips: [
-          "Paso largo hacia adelante",
-          "Torso ligeramente inclinado",
-          "Rodilla trasera casi toca suelo",
-          "Empuja con talón delantero"
-        ],
-        muscleGroup: "Pierna/Glúteos",
-        equipment: ["mancuernas", "banco"]
-      },
-      {
-        id: "d2e3",
-        name: "Peso Muerto Rumano con Mancuernas",
-        sets: 4,
-        reps: "12",
-        rest: "90 seg",
-        instruction: "De pie, mancuernas frente a muslos. Inclina torso hacia adelante bajando mancuernas por piernas, vuelve.",
-        tips: [
-          "Rodillas ligeramente flexionadas",
-          "Espalda recta, neutra",
-          "Siente estiramiento en isquios",
-          "Contrae glúteos arriba"
-        ],
-        muscleGroup: "Isquiotibiales",
-        equipment: ["mancuernas"]
-      },
-      {
-        id: "d2e4",
-        name: "Estocadas con Mancuernas",
-        sets: 3,
-        reps: "12 c/p",
-        rest: "90 seg",
-        instruction: "De pie, mancuernas a los lados. Paso largo adelante, baja hasta rodilla trasera casi toca suelo, vuelve.",
-        tips: [
-          "Paso largo, no corto",
-          "Rodilla delantera no pase punta pie",
-          "Torso vertical",
-          "Alterna piernas o haz todas con una y cambias"
-        ],
-        muscleGroup: "Pierna",
-        equipment: ["mancuernas"]
-      },
-      {
-        id: "d2e5",
-        name: "Peso Muerto a una Pierna (Romanian)",
-        sets: 3,
-        reps: "10 c/p",
-        rest: "90 seg",
-        instruction: "De pie sobre una pierna, mancuernas colgando. Inclina torso, pierna libre va hacia atrás, baja mancuernas, vuelve.",
-        tips: [
-          "Equilibrio es clave, controla",
-          "Rodilla de soporte ligeramente flexionada",
-          "Baja hasta paralelo al suelo",
-          "Contrae glúteo al subir"
-        ],
-        muscleGroup: "Isquiotibiales/Glúteos",
-        equipment: ["mancuernas"]
-      },
-      {
-        id: "d2e6",
-        name: "Sentadilla con Salto (Goblet)",
-        sets: 3,
-        reps: "10",
-        rest: "2 min",
-        instruction: "Sostén mancuerna contra pecho. Sentadilla y explota hacia arriba en salto. Aterriza suave.",
-        tips: [
-          "Aterriza suave, rodillas flexionadas",
-          "No bloquees rodillas",
-          "Mantén mancuerna pegada al pecho",
-          "Controla el descenso"
-        ],
-        muscleGroup: "Pierna/Potencia",
-        equipment: ["mancuernas"]
-      },
-      {
-        id: "d2e7",
-        name: "Elevación de Talones con Mancuernas",
-        sets: 4,
-        reps: "15",
-        rest: "60 seg",
-        instruction: "De pie, mancuernas a los lados o una contra el pecho. Elevación de talones subiendo en puntas, baja controlado.",
-        tips: [
-          "Puedes hacerlo en escalón o suelo",
-          "Rango completo: talón debajo del nivel",
-          "Contrae gemelos arriba",
-          "Peso moderado, muchas reps"
-        ],
-        muscleGroup: "Gemelos",
-        equipment: ["mancuernas"]
-      },
+      // Glúteos
       {
         id: "d2e8",
         name: "Puente de Glúteo con Mancuerna",
@@ -446,8 +355,24 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Glúteos",
         equipment: ["mancuernas"]
       },
-      
-      // CORE - Solo peso corporal o mancuernas
+      // Isquiotibiales
+      {
+        id: "d2e3",
+        name: "Peso Muerto Rumano con Mancuernas",
+        sets: 4,
+        reps: "12",
+        rest: "90 seg",
+        instruction: "De pie, mancuernas frente a muslos. Inclina torso hacia adelante bajando mancuernas por piernas, vuelve.",
+        tips: [
+          "Rodillas ligeramente flexionadas",
+          "Espalda recta, neutra",
+          "Siente estiramiento en isquios",
+          "Contrae glúteos arriba"
+        ],
+        muscleGroup: "Isquiotibiales",
+        equipment: ["mancuernas"]
+      },
+      // Core
       {
         id: "d2e9",
         name: "Crunch con Mancuerna (Peso en Pecho)",
@@ -464,6 +389,58 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Core",
         equipment: ["mancuernas"]
       },
+      // Pierna/Glúteos
+      {
+        id: "d2e2",
+        name: "Sentadilla Búlgara con Mancuernas",
+        sets: 3,
+        reps: "10 c/p",
+        rest: "90 seg",
+        instruction: "Pie trasero sobre el banco (tobillo), mancuernas a los lados. Baja en zancada profunda, sube.",
+        tips: [
+          "Paso largo hacia adelante",
+          "Torso ligeramente inclinado",
+          "Rodilla trasera casi toca suelo",
+          "Empuja con talón delantero"
+        ],
+        muscleGroup: "Pierna/Glúteos",
+        equipment: ["mancuernas", "banco"]
+      },
+      // Gemelos
+      {
+        id: "d2e7",
+        name: "Elevación de Talones con Mancuernas",
+        sets: 4,
+        reps: "15",
+        rest: "60 seg",
+        instruction: "De pie, mancuernas a los lados o una contra el pecho. Elevación de talones subiendo en puntas, baja controlado.",
+        tips: [
+          "Puedes hacerlo en escalón o suelo",
+          "Rango completo: talón debajo del nivel",
+          "Contrae gemelos arriba",
+          "Peso moderado, muchas reps"
+        ],
+        muscleGroup: "Gemelos",
+        equipment: ["mancuernas"]
+      },
+      // Pierna
+      {
+        id: "d2e4",
+        name: "Estocadas con Mancuernas",
+        sets: 3,
+        reps: "12 c/p",
+        rest: "90 seg",
+        instruction: "De pie, mancuernas a los lados. Paso largo adelante, baja hasta rodilla trasera casi toca suelo, vuelve.",
+        tips: [
+          "Paso largo, no corto",
+          "Rodilla delantera no pase punta pie",
+          "Torso vertical",
+          "Alterna piernas o haz todas con una y cambias"
+        ],
+        muscleGroup: "Pierna",
+        equipment: ["mancuernas"]
+      },
+      // Core (isométrico)
       {
         id: "d2e10",
         name: "Plancha (Plank)",
@@ -482,6 +459,41 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         isTimeBased: true,
         duration: 60
       },
+      // Isquiotibiales/Glúteos
+      {
+        id: "d2e5",
+        name: "Peso Muerto a una Pierna (Romanian)",
+        sets: 3,
+        reps: "10 c/p",
+        rest: "90 seg",
+        instruction: "De pie sobre una pierna, mancuernas colgando. Inclina torso, pierna libre va hacia atrás, baja mancuernas, vuelve.",
+        tips: [
+          "Equilibrio es clave, controla",
+          "Rodilla de soporte ligeramente flexionada",
+          "Baja hasta paralelo al suelo",
+          "Contrae glúteo al subir"
+        ],
+        muscleGroup: "Isquiotibiales/Glúteos",
+        equipment: ["mancuernas"]
+      },
+      // Pierna/Potencia
+      {
+        id: "d2e6",
+        name: "Sentadilla con Salto (Goblet)",
+        sets: 3,
+        reps: "10",
+        rest: "2 min",
+        instruction: "Sostén mancuerna contra pecho. Sentadilla y explota hacia arriba en salto. Aterriza suave.",
+        tips: [
+          "Aterriza suave, rodillas flexionadas",
+          "No bloquees rodillas",
+          "Mantén mancuerna pegada al pecho",
+          "Controla el descenso"
+        ],
+        muscleGroup: "Pierna/Potencia",
+        equipment: ["mancuernas"]
+      },
+      // Core/Oblicuos
       {
         id: "d2e11",
         name: "Russian Twists con Mancuerna",
@@ -509,7 +521,8 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
     estimatedCalories: 450,
     completed: false,
     exercises: [
-      // HIIT - Circuito completo
+      // HIIT - Alternancia: Full Body → Piernas/Core → Upper Body → Cardio
+      // Full Body
       {
         id: "d3e1",
         name: "Thrusters con Mancuernas",
@@ -526,38 +539,26 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Full Body",
         equipment: ["mancuernas"]
       },
+      // Core/Cardio (sin peso, recovery activo)
       {
-        id: "d3e2",
-        name: "Burpees con Mancuernas (Sin push-up)",
+        id: "d3e7",
+        name: "Mountain Climbers (Sin peso)",
         sets: 4,
-        reps: "10",
-        rest: "45 seg",
-        instruction: "Circuito: Mancuernas en suelo, manos en ellas. Salta pies atrás, salta adelante, levanta y salta con mancuernas.",
+        reps: "40 seg",
+        rest: "20 seg",
+        instruction: "Circuito: Posición de flexión. Rodillas alternas al pecho rápido.",
         tips: [
-          "Caída controlada en sentadilla",
-          "Explota en la subida",
-          "No redondees espalda",
-          "Sincroniza con respiración"
+          "Caderas no suban demasiado",
+          "Rápido y constante",
+          "Mantén ritmo estable",
+          "Respira, no aguantes"
         ],
-        muscleGroup: "Full Body",
-        equipment: ["mancuernas"]
+        muscleGroup: "Core/Cardio",
+        equipment: ["sin_peso"],
+        isTimeBased: true,
+        duration: 40
       },
-      {
-        id: "d3e3",
-        name: "Clean and Press con Mancuernas",
-        sets: 4,
-        reps: "8 c/b",
-        rest: "45 seg",
-        instruction: "Circuito: De pie, mancuernas colgando. Lleva a hombros (clean) y empuja arriba (press). Alterna o simultáneo.",
-        tips: [
-          "Explota desde caderas para el clean",
-          "Aterriza suave con mancuernas en hombros",
-          "Press completo arriba",
-          "Controla la bajada"
-        ],
-        muscleGroup: "Full Body",
-        equipment: ["mancuernas"]
-      },
+      // Posterior
       {
         id: "d3e4",
         name: "Swing con Mancuernas",
@@ -574,6 +575,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Posterior",
         equipment: ["mancuernas"]
       },
+      // Core/Espalda
       {
         id: "d3e5",
         name: "Renegade Rows con Mancuernas",
@@ -590,6 +592,43 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Core/Espalda",
         equipment: ["mancuernas"]
       },
+      // Full Body (explosivo)
+      {
+        id: "d3e3",
+        name: "Clean and Press con Mancuernas",
+        sets: 4,
+        reps: "8 c/b",
+        rest: "45 seg",
+        instruction: "Circuito: De pie, mancuernas colgando. Lleva a hombros (clean) y empuja arriba (press). Alterna o simultáneo.",
+        tips: [
+          "Explota desde caderas para el clean",
+          "Aterriza suave con mancuernas en hombros",
+          "Press completo arriba",
+          "Controla la bajada"
+        ],
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
+      },
+      // Cardio (sin peso)
+      {
+        id: "d3e8",
+        name: "Jumping Jacks con Mancuernas Ligeras",
+        sets: 4,
+        reps: "30 seg",
+        rest: "20 seg",
+        instruction: "Circuito: Sostén mancuernas ligeras. Jumping jacks clásicos moviendo brazos y piernas.",
+        tips: [
+          "Peso muy ligero (1-2kg)",
+          "Ritmo rápido",
+          "Mantén ritmo cardíaco alto",
+          "No pareces hasta el tiempo"
+        ],
+        muscleGroup: "Cardio",
+        equipment: ["mancuernas"],
+        isTimeBased: true,
+        duration: 30
+      },
+      // Full Body (compound)
       {
         id: "d3e6",
         name: "Sentadillas y Press (Combinación)",
@@ -606,38 +645,7 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Full Body",
         equipment: ["mancuernas"]
       },
-      {
-        id: "d3e7",
-        name: "Mountain Climbers (Sin peso)",
-        sets: 4,
-        reps: "40 seg",
-        rest: "20 seg",
-        instruction: "Circuito: Posición de flexión. Rodillas alternas al pecho rápido.",
-        tips: [
-          "Caderas no suban demasiado",
-          "Rápido y constante",
-          "Mantén ritmo estable",
-          "Respira, no aguantes"
-        ],
-        muscleGroup: "Core/Cardio",
-        equipment: ["sin_peso"]
-      },
-      {
-        id: "d3e8",
-        name: "Jumping Jacks con Mancuernas Ligeras",
-        sets: 4,
-        reps: "30 seg",
-        rest: "20 seg",
-        instruction: "Circuito: Sostén mancuernas ligeras. Jumping jacks clásicos moviendo brazos y piernas.",
-        tips: [
-          "Peso muy ligero (1-2kg)",
-          "Ritmo rápido",
-          "Mantén ritmo cardíaco alto",
-          "No pareces hasta el tiempo"
-        ],
-        muscleGroup: "Cardio",
-        equipment: ["mancuernas"]
-      },
+      // Core (plank row)
       {
         id: "d3e9",
         name: "Plancha con Row",
@@ -654,6 +662,24 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
         muscleGroup: "Core/Espalda",
         equipment: ["mancuernas"]
       },
+      // Full Body (explosivo)
+      {
+        id: "d3e2",
+        name: "Burpees con Mancuernas (Sin push-up)",
+        sets: 4,
+        reps: "10",
+        rest: "45 seg",
+        instruction: "Circuito: Mancuernas en suelo, manos en ellas. Salta pies atrás, salta adelante, levanta y salta con mancuernas.",
+        tips: [
+          "Caída controlada en sentadilla",
+          "Explota en la subida",
+          "No redondees espalda",
+          "Sincroniza con respiración"
+        ],
+        muscleGroup: "Full Body",
+        equipment: ["mancuernas"]
+      },
+      // Cardio final al fallo
       {
         id: "d3e10",
         name: "Burpees al Fallo",
@@ -668,7 +694,9 @@ export const WORKOUT_DAYS: WorkoutDay[] = [
           "Sprint final, vacía el tanque"
         ],
         muscleGroup: "Full Body",
-        equipment: ["sin_peso"]
+        equipment: ["sin_peso"],
+        isTimeBased: true,
+        duration: 0
       }
     ]
   }
