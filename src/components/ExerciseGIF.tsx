@@ -33,16 +33,37 @@ const MUSCLE_STYLES: Record<string, { gradient: string; emoji: string; label: st
   "Cardio": { gradient: "from-red-500 via-orange-400 to-yellow-400", emoji: "🏃", label: "Cardio" },
 };
 
-// Muscle groups mapped to exercise IDs we have local images for
+// Images from free-exercise-db (GitHub, public domain)
 const LOCAL_IMAGES: Record<string, string> = {
-  "d1e1": "/exercises/d1e1.png",  // Bench press
-  "d1e3": "/exercises/d1e3.png",  // Pullover
-  "d1e4": "/exercises/d1e4.png",  // Row
-  "d1e5": "/exercises/d1e5.png",  // Upright row
-  "d1e7": "/exercises/d1e7.png",  // Shoulder press
-  "d2e4": "/exercises/d2e4.png",  // Lunges
-  "d3e5": "/exercises/d3e5.png",  // Renegade row
-  "d3e9": "/exercises/d3e9.png",  // Plank row
+  "d1e1": "/exercises/d1e1.jpg",
+  "d1e2": "/exercises/d1e2.jpg",
+  "d1e3": "/exercises/d1e3.jpg",
+  "d1e4": "/exercises/d1e4.jpg",
+  "d1e5": "/exercises/d1e5.jpg",
+  "d1e6": "/exercises/d1e6.jpg",
+  "d1e7": "/exercises/d1e7.jpg",
+  "d1e8": "/exercises/d1e8.jpg",
+  "d1e9": "/exercises/d1e9.jpg",
+  "d1e10": "/exercises/d1e10.jpg",
+  "d1e11": "/exercises/d1e11.jpg",
+  "d1e12": "/exercises/d1e12.jpg",
+  "d2e1": "/exercises/d2e1.jpg",
+  "d2e2": "/exercises/d2e2.jpg",
+  "d2e3": "/exercises/d2e3.jpg",
+  "d2e4": "/exercises/d2e4.jpg",
+  "d2e5": "/exercises/d2e5.jpg",
+  "d2e6": "/exercises/d2e6.jpg",
+  "d2e7": "/exercises/d2e7.jpg",
+  "d2e8": "/exercises/d2e8.jpg",
+  "d2e9": "/exercises/d2e9.jpg",
+  "d2e10": "/exercises/d2e10.jpg",
+  "d2e11": "/exercises/d2e11.jpg",
+  "d3e1": "/exercises/d3e1.jpg",
+  "d3e3": "/exercises/d3e3.jpg",
+  "d3e4": "/exercises/d3e4.jpg",
+  "d3e5": "/exercises/d3e5.jpg",
+  "d3e7": "/exercises/d3e7.jpg",
+  "d3e9": "/exercises/d3e9.jpg",
 };
 
 const MUSCLE_GROUPS: Record<string, string> = {
@@ -60,8 +81,8 @@ const MUSCLE_GROUPS: Record<string, string> = {
 };
 
 export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false }: ExerciseGIFProps) {
-  const [localError, setLocalError] = React.useState(false);
-  const [localLoaded, setLocalLoaded] = React.useState(false);
+  const [imgError, setImgError] = React.useState(false);
+  const [imgLoaded, setImgLoaded] = React.useState(false);
 
   const muscleGroup = MUSCLE_GROUPS[exerciseId] || "Full Body";
   const muscleStyle = MUSCLE_STYLES[muscleGroup] || MUSCLE_STYLES["Full Body"];
@@ -96,13 +117,13 @@ export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false
   if (size === "full") {
     return (
       <div className={`${sizeClasses[size]} relative rounded-2xl overflow-hidden border border-zinc-700 bg-gradient-to-br from-zinc-800 to-zinc-900`}>
-        {localImage && !localError ? (
+        {localImage && !imgError ? (
           <img
             src={localImage}
             alt={muscleGroup}
             className="w-full h-full object-cover"
-            onLoad={() => setLocalLoaded(true)}
-            onError={() => setLocalError(true)}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
           />
         ) : (
           <div className={`w-full h-full bg-gradient-to-br ${muscleStyle.gradient} flex flex-col items-center justify-center gap-2`}>
@@ -110,7 +131,7 @@ export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false
             <span className="text-white/80 text-sm font-medium px-3 py-1 rounded-full bg-black/30 backdrop-blur-sm">{muscleStyle.label}</span>
           </div>
         )}
-        {localImage && localLoaded && !localError && (
+        {localImage && imgLoaded && !imgError && (
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         )}
       </div>
@@ -120,15 +141,15 @@ export default function ExerciseGIF({ exerciseId, size = "md", showVideo = false
   // For sm, md, lg sizes
   return (
     <div className={`${sizeClasses[size]} relative rounded-2xl overflow-hidden flex-shrink-0 border border-zinc-700/50`}>
-      {localImage && !localError ? (
+      {localImage && !imgError ? (
         <>
           <img
             src={localImage}
             alt=""
             className="w-full h-full object-cover"
-            onError={() => setLocalError(true)}
+            onError={() => setImgError(true)}
           />
-          <div className={`absolute inset-0 bg-gradient-to-br ${muscleStyle.gradient} opacity-20`} />
+          <div className={`absolute inset-0 bg-gradient-to-br ${muscleStyle.gradient} opacity-15`} />
         </>
       ) : (
         <div className={`w-full h-full bg-gradient-to-br ${muscleStyle.gradient} flex flex-col items-center justify-center gap-0.5`}>
